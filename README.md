@@ -22,6 +22,11 @@ $ roslaunch semantic_bgkoctomap semantic_bgkoctomap_node.launch
 
 If you found this code useful, please cite the following:
 
+TODO: add our paper link and citation
+Bayesian Spatial Kernel Smoothing for Scalable Dense Semantic Mapping
+```
+```
+
 Learning-Aided 3-D Occupancy Mapping with Bayesian Generalized Kernel Inference ([PDF](https://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&arnumber=8713569))
 ```
 @article{Doherty2019,
