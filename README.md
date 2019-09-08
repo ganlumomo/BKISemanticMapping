@@ -1,7 +1,7 @@
 # BKISemanticMapping
 Bayesian Spatial Kernel Smoothing for Scalable Dense Semantic Mapping
 
-![toy example](https://raw.githubusercontent.com/ganlumomo/BKISemanticMapping/master/github/toy_example.png "toy_example")
+![toy example](https://github.com/ganlumomo/BKISemanticMapping/blob/master/toy_example.png "toy_example")
 
 
 ## Getting Started
