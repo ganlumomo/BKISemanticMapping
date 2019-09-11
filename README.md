@@ -27,8 +27,14 @@ If you found this code useful, please cite the following:
 
 #### TODO: add our paper link and citation
 
-Bayesian Spatial Kernel Smoothing for Scalable Dense Semantic Mapping
+Bayesian Spatial Kernel Smoothing for Scalable Dense Semantic Mapping ([PDF](https://arxiv.org/pdf/1909.04631.pdf))
 ```
+@article{gan2019bayesian,
+  title={Bayesian Spatial Kernel Smoothing for Scalable Dense Semantic Mapping},
+  author={Gan, Lu and Zhang, Ray and Grizzle, Jessy W and Eustice, Ryan M and Jadidi, Maani},
+  journal={arXiv preprint arXiv:1909.04631},
+  year={2019}
+}
 ```
 
 Learning-Aided 3-D Occupancy Mapping with Bayesian Generalized Kernel Inference ([PDF](https://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&arnumber=8713569))
