@@ -25,8 +25,6 @@ $ roslaunch semantic_bgkoctomap semantic_bgkoctomap_node.launch
 
 If you found this code useful, please cite the following:
 
-#### TODO: add our paper link and citation
-
 Bayesian Spatial Kernel Smoothing for Scalable Dense Semantic Mapping ([PDF](https://arxiv.org/pdf/1909.04631.pdf))
 ```
 @article{gan2019bayesian,
