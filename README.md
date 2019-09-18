@@ -3,6 +3,8 @@ Bayesian Spatial Kernel Smoothing for Scalable Dense Semantic Mapping
 
 <img src="https://raw.githubusercontent.com/ganlumomo/BKISemanticMapping/master/github/toy_example_semantic_csm.png" width="400"><img src="https://raw.githubusercontent.com/ganlumomo/BKISemanticMapping/master/github/toy_example_semantic_bki.png" width="400">
 <img src="https://raw.githubusercontent.com/ganlumomo/BKISemanticMapping/master/github/toy_example_semantic_csm_variance.png" width="400"><img src="https://raw.githubusercontent.com/ganlumomo/BKISemanticMapping/master/github/toy_example_semantic_bki_variance.png" width="400">
+
+
 ## Getting Started
 
 ### Building with catkin
@@ -19,6 +21,20 @@ catkin_ws$ source ~/catkin_ws/devel/setup.bash
 ```bash
 $ roslaunch semantic_bki toy_example_node.launch
 ```
+
+
+## Semantic Mapping using KITTI dataset
+
+### Download Data
+Please download [kitti_15](https://drive.google.com/file/d/19fy_OkVJSUZttf7l0CQGvsZmzKR-WdYy/view?usp=sharing) and uncompress it into the data folder.
+
+### Running
+```bash
+$ roslaunch semantic_bki kitti_node.launch
+```
+### Evaluation
+TODO
+
 
 ## Relevant Publications
 
