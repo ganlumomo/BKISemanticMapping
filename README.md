@@ -17,7 +17,7 @@ catkin_ws$ source ~/catkin_ws/devel/setup.bash
 ### Running the Demo
 
 ```bash
-$ roslaunch semantic_bgkoctomap semantic_bgkoctomap_node.launch
+$ roslaunch semantic_bki toy_example_node.launch
 ```
 
 ## Relevant Publications
