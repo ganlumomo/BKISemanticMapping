@@ -8,6 +8,10 @@ Panels:
         - /Status1
         - /PointCloud21
         - /PointCloud21/Autocompute Value Bounds1
+        - /MarkerArray1
+        - /MarkerArray2
+        - /MarkerArray3
+        - /MarkerArray4
       Splitter Ratio: 0.5
     Tree Height: 775
   - Class: rviz/Selection
@@ -90,7 +94,23 @@ Visualization Manager:
       Value: true
     - Class: rviz/MarkerArray
       Enabled: true
+      Marker Topic: /semantic_csm_variance
+      Name: MarkerArray
+      Namespaces:
+        map: true
+      Queue Size: 100
+      Value: true
+    - Class: rviz/MarkerArray
+      Enabled: true
       Marker Topic: /semantic_bki
+      Name: MarkerArray
+      Namespaces:
+        map: true
+      Queue Size: 100
+      Value: true
+    - Class: rviz/MarkerArray
+      Enabled: true
+      Marker Topic: /semantic_bki_variance
       Name: MarkerArray
       Namespaces:
         map: true

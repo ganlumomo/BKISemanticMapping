@@ -24,6 +24,8 @@ int main(int argc, char **argv) {
     int scan_num = 0;
     std::string map_topic_csm("/semantic_csm");
     std::string map_topic("/semantic_bki");
+    std::string var_topic_csm("/semantic_csm_variance");
+    std::string var_topic("/semantic_bki_variance");
     double max_range = -1;
     double resolution = 0.1;
     int block_depth = 4;
@@ -85,15 +87,40 @@ int main(int argc, char **argv) {
     ros::Time end = ros::Time::now();
     ROS_INFO_STREAM("Semantic CSM finished in " << (end - start).toSec() << "s");
 
+    /////////////////////// Publish Map //////////////////////
+    float max_var = std::numeric_limits<float>::min();
+    float min_var = std::numeric_limits<float>::max(); 
     semantic_bki::MarkerArrayPub m_pub_csm(nh, map_topic_csm, resolution);
     for (auto it = map_csm.begin_leaf(); it != map_csm.end_leaf(); ++it) {
         if (it.get_node().get_state() == semantic_bki::State::OCCUPIED) {
             semantic_bki::point3f p = it.get_loc();
             int semantics = it.get_node().get_semantics();
             m_pub_csm.insert_point3d_semantics(p.x(), p.y(), p.z(), it.get_size(), semantics);
+            std::vector<float> vars(num_class);
+            it.get_node().get_vars(vars);
+            if (vars[semantics] > max_var)
+		          max_var = vars[semantics];
+		        if (vars[semantics] < min_var)
+		          min_var = vars[semantics];
         }
     }
     m_pub_csm.publish();
+    std::cout << "max_var: " << max_var << std::endl;
+    std::cout << "min_var: " << min_var << std::endl;
+    
+    /////////////////////// Variance Map //////////////////////
+    semantic_bki::MarkerArrayPub v_pub_csm(nh, var_topic_csm, resolution);
+    for (auto it = map_csm.begin_leaf(); it != map_csm.end_leaf(); ++it) {
+        if (it.get_node().get_state() == semantic_bki::State::OCCUPIED) {
+            semantic_bki::point3f p = it.get_loc();
+            int semantics = it.get_node().get_semantics();
+            std::vector<float> vars(num_class);
+            it.get_node().get_vars(vars);
+            v_pub_csm.insert_point3d_variance(p.x(), p.y(), p.z(), min_var, max_var, it.get_size(), vars[semantics]);
+        }
+    }
+    v_pub_csm.publish();
+
     
     /////////////////////// Semantic BKI //////////////////////
     semantic_bki::SemanticBKIOctoMap map(resolution, block_depth, num_class, sf2, ell, prior, var_thresh, free_thresh, occupied_thresh);
@@ -108,16 +135,41 @@ int main(int argc, char **argv) {
     }
     end = ros::Time::now();
     ROS_INFO_STREAM("Semantic BKI finished in " << (end - start).toSec() << "s");
+ 
     
+    /////////////////////// Publish Map //////////////////////
+    max_var = std::numeric_limits<float>::min();
+    min_var = std::numeric_limits<float>::max(); 
     semantic_bki::MarkerArrayPub m_pub(nh, map_topic, resolution);
     for (auto it = map.begin_leaf(); it != map.end_leaf(); ++it) {
         if (it.get_node().get_state() == semantic_bki::State::OCCUPIED) {
             semantic_bki::point3f p = it.get_loc();
             int semantics = it.get_node().get_semantics();
             m_pub.insert_point3d_semantics(p.x(), p.y(), p.z(), it.get_size(), semantics);
+            std::vector<float> vars(num_class);
+            it.get_node().get_vars(vars);
+            if (vars[semantics] > max_var)
+		          max_var = vars[semantics];
+		        if (vars[semantics] < min_var)
+		          min_var = vars[semantics];
         }
     }
     m_pub.publish();
+    std::cout << "max_var: " << max_var << std::endl;
+    std::cout << "min_var: " << min_var << std::endl;
+
+    /////////////////////// Variance Map //////////////////////
+    semantic_bki::MarkerArrayPub v_pub(nh, var_topic, resolution);
+    for (auto it = map.begin_leaf(); it != map.end_leaf(); ++it) {
+        if (it.get_node().get_state() == semantic_bki::State::OCCUPIED) {
+            semantic_bki::point3f p = it.get_loc();
+            int semantics = it.get_node().get_semantics();
+            std::vector<float> vars(num_class);
+            it.get_node().get_vars(vars);
+            v_pub.insert_point3d_variance(p.x(), p.y(), p.z(), min_var, max_var, it.get_size(), vars[semantics]);
+        }
+    }
+    v_pub.publish();
 
     ros::spin();
 
