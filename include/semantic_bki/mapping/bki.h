@@ -11,7 +11,7 @@ namespace semantic_bki {
      * @ref Nonparametric Bayesian inference on multivariate exponential families
      */
     template<int dim, typename T>
-    class SemanticBGKInference {
+    class SemanticBKInference {
     public:
         /// Eigen matrix type for training and test data and kernel
         using MatrixXType = Eigen::Matrix<T, -1, dim, Eigen::RowMajor>;
@@ -19,7 +19,7 @@ namespace semantic_bki {
         using MatrixDKType = Eigen::Matrix<T, -1, 1>;
         using MatrixYType = Eigen::Matrix<T, -1, 1>;
 
-        SemanticBGKInference(int nc, T sf2, T ell) : sf2(sf2), ell(ell), nc(nc), trained(false) { }
+        SemanticBKInference(int nc, T sf2, T ell) : nc(nc), sf2(sf2), ell(ell), trained(false) { }
 
         /*
          * @brief Fit BGK Model
@@ -46,79 +46,65 @@ namespace semantic_bki {
         }
 
        
-	void predict(const std::vector<T> &xs, std::vector<std::vector<T>> &ybars) {
-	    assert(xs.size() % dim == 0);
-	    MatrixXType _xs = Eigen::Map<const MatrixXType>(xs.data(), xs.size() / dim, dim);
-	    assert(trained == true);
-	    MatrixKType Ks;
+      void predict(const std::vector<T> &xs, std::vector<std::vector<T>> &ybars) {
+          assert(xs.size() % dim == 0);
+          MatrixXType _xs = Eigen::Map<const MatrixXType>(xs.data(), xs.size() / dim, dim);
+          assert(trained == true);
+          MatrixKType Ks;
 
-	    //covCountingSensorModel(_xs, x, Ks);
-	    covSparse(_xs, x, Ks);
-	    
-	    ybars.resize(_xs.rows());
-	    for (int r = 0; r < _xs.rows(); ++r)
-	      ybars[r].resize(nc);
-
-        MatrixYType _y_vec = Eigen::Map<const MatrixYType>(y_vec.data(), y_vec.size(), 1);
-        for (int k = 0; k < nc; ++k) {
-          for (int i = 0; i < y_vec.size(); ++i) {
-            if (y_vec[i] == k)
-              _y_vec(i, 0) = 1;
-            else
-              _y_vec(i, 0) = 0;
-          }
-	      
-	      MatrixYType _ybar;
-	      _ybar = (Ks * _y_vec);
-	      
-	      for (int r = 0; r < _ybar.rows(); ++r)
-	        ybars[r][k] = _ybar(r, 0);
-	    }
-	}
-
-
-        /*
-         * @brief Predict with BGK Model
-         * @param xs input vector (3M, row major)
-         * @param ybar positive class kernel density estimate (\bar{y})
-         * @param kbar kernel density estimate (\bar{k})
-         */
-        void predict(const std::vector<T> &xs, std::vector<T> &abar, std::vector<T> &bbar) const {
-            assert(xs.size() % dim == 0);
-            MatrixXType _xs = Eigen::Map<const MatrixXType>(xs.data(), xs.size() / dim, dim);
-            //std::cout << "xs: " << _xs << std::endl;
-
-            MatrixYType _abar, _bbar;
-            predict(_xs, _abar, _bbar);
-
-            abar.resize(_abar.rows());
-            bbar.resize(_bbar.rows());
-            for (int r = 0; r < _abar.rows(); ++r) {
-                abar[r] = _abar(r, 0);
-                bbar[r] = _bbar(r, 0);
-            }
-        }
-
-        /*
-         * @brief Predict with nonparametric Bayesian generalized kernel inference
-         * @param xs input vector (M x 3)
-         * @param ybar positive class kernel density estimate (M x 1)
-         * @param kbar kernel density estimate (M x 1)
-         */
-        void predict(const MatrixXType &xs, MatrixYType &abar, MatrixYType &bbar) const {
-            assert(trained == true);
-	        MatrixKType Ks;
+          covSparse(_xs, x, Ks);
           
-          //covSparse(xs, x, Ks);
-          covCountingSensorModel(xs, x, Ks);
+          ybars.resize(_xs.rows());
+          for (int r = 0; r < _xs.rows(); ++r)
+            ybars[r].resize(nc);
 
-          abar = (Ks * y).array();
-          MatrixYType ones = MatrixYType::Ones(y.rows(), 1);
-          bbar = (Ks * (ones-y)).array();
-          //kbar = Ks.rowwise().sum().array();
+            MatrixYType _y_vec = Eigen::Map<const MatrixYType>(y_vec.data(), y_vec.size(), 1);
+            for (int k = 0; k < nc; ++k) {
+              for (int i = 0; i < y_vec.size(); ++i) {
+                if (y_vec[i] == k)
+                  _y_vec(i, 0) = 1;
+                else
+                  _y_vec(i, 0) = 0;
+              }
+            
+            MatrixYType _ybar;
+            _ybar = (Ks * _y_vec);
+            
+            for (int r = 0; r < _ybar.rows(); ++r)
+              ybars[r][k] = _ybar(r, 0);
+          }
+      }
+
+      void predict_csm(const std::vector<T> &xs, std::vector<std::vector<T>> &ybars) {
+          assert(xs.size() % dim == 0);
+          MatrixXType _xs = Eigen::Map<const MatrixXType>(xs.data(), xs.size() / dim, dim);
+          assert(trained == true);
+          MatrixKType Ks;
+
+          covCountingSensorModel(_xs, x, Ks);
+          
+          ybars.resize(_xs.rows());
+          for (int r = 0; r < _xs.rows(); ++r)
+            ybars[r].resize(nc);
+
+            MatrixYType _y_vec = Eigen::Map<const MatrixYType>(y_vec.data(), y_vec.size(), 1);
+            for (int k = 0; k < nc; ++k) {
+              for (int i = 0; i < y_vec.size(); ++i) {
+                if (y_vec[i] == k)
+                  _y_vec(i, 0) = 1;
+                else
+                  _y_vec(i, 0) = 0;
+              }
+            
+            MatrixYType _ybar;
+            _ybar = (Ks * _y_vec);
+            
+            for (int r = 0; r < _ybar.rows(); ++r)
+              ybars[r][k] = _ybar(r, 0);
+          }
+      }
+
         
-        }
-
     private:
         /*
          * @brief Compute Euclid distances between two vectors.
@@ -181,6 +167,6 @@ namespace semantic_bki {
         bool trained;    // true if bgkinference stored training data
     };
 
-    typedef SemanticBGKInference<3, float> SemanticBGK3f;
+    typedef SemanticBKInference<3, float> SemanticBKI3f;
 
 }

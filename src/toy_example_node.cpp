@@ -22,7 +22,8 @@ int main(int argc, char **argv) {
     std::string dir;
     std::string prefix;
     int scan_num = 0;
-    std::string map_topic("/occupied_cells_vis_array");
+    std::string map_topic_csm("/semantic_csm");
+    std::string map_topic("/semantic_bki");
     double max_range = -1;
     double resolution = 0.1;
     int block_depth = 4;
@@ -38,7 +39,6 @@ int main(int argc, char **argv) {
 
     nh.param<std::string>("dir", dir, dir);
     nh.param<std::string>("prefix", prefix, prefix);
-    nh.param<std::string>("topic", map_topic, map_topic);
     nh.param<int>("scan_num", scan_num, scan_num);
     nh.param<double>("max_range", max_range, max_range);
     nh.param<double>("resolution", resolution, resolution);
@@ -56,7 +56,6 @@ int main(int argc, char **argv) {
     ROS_INFO_STREAM("Parameters:" << std::endl <<
             "dir: " << dir << std::endl <<
             "prefix: " << prefix << std::endl <<
-            "topic: " << map_topic << std::endl <<
             "scan_sum: " << scan_num << std::endl <<
             "max_range: " << max_range << std::endl <<
             "resolution: " << resolution << std::endl <<
@@ -72,23 +71,44 @@ int main(int argc, char **argv) {
             "occupied_thresh: " << occupied_thresh
             );
 
-    semantic_bki::SemanticBKIOctoMap map(resolution, block_depth, num_class, sf2, ell, prior, var_thresh, free_thresh, occupied_thresh);
-
+    /////////////////////// Semantic CSM //////////////////////
+    semantic_bki::SemanticBKIOctoMap map_csm(resolution, 1, num_class, sf2, ell, prior, var_thresh, free_thresh, occupied_thresh);
     ros::Time start = ros::Time::now();
     for (int scan_id = 1; scan_id <= scan_num; ++scan_id) {
         semantic_bki::PCLPointCloud cloud;
         semantic_bki::point3f origin;
         std::string filename(dir + "/" + prefix + "_" + std::to_string(scan_id) + ".pcd");
         load_pcd(filename, origin, cloud);
-
-        map.insert_pointcloud(cloud, origin, resolution, free_resolution, max_range);
+        map_csm.insert_pointcloud_csm(cloud, origin, resolution, free_resolution, max_range);
         ROS_INFO_STREAM("Scan " << scan_id << " done");
     }
     ros::Time end = ros::Time::now();
-    ROS_INFO_STREAM("Mapping finished in " << (end - start).toSec() << "s");
+    ROS_INFO_STREAM("Semantic CSM finished in " << (end - start).toSec() << "s");
 
-
-    ///////// Publish Map /////////////////////
+    semantic_bki::MarkerArrayPub m_pub_csm(nh, map_topic_csm, resolution);
+    for (auto it = map_csm.begin_leaf(); it != map_csm.end_leaf(); ++it) {
+        if (it.get_node().get_state() == semantic_bki::State::OCCUPIED) {
+            semantic_bki::point3f p = it.get_loc();
+            int semantics = it.get_node().get_semantics();
+            m_pub_csm.insert_point3d_semantics(p.x(), p.y(), p.z(), it.get_size(), semantics);
+        }
+    }
+    m_pub_csm.publish();
+    
+    /////////////////////// Semantic BKI //////////////////////
+    semantic_bki::SemanticBKIOctoMap map(resolution, block_depth, num_class, sf2, ell, prior, var_thresh, free_thresh, occupied_thresh);
+    start = ros::Time::now();
+    for (int scan_id = 1; scan_id <= scan_num; ++scan_id) {
+        semantic_bki::PCLPointCloud cloud;
+        semantic_bki::point3f origin;
+        std::string filename(dir + "/" + prefix + "_" + std::to_string(scan_id) + ".pcd");
+        load_pcd(filename, origin, cloud);
+        map.insert_pointcloud(cloud, origin, resolution, free_resolution, max_range);
+        ROS_INFO_STREAM("Scan " << scan_id << " done");
+    }
+    end = ros::Time::now();
+    ROS_INFO_STREAM("Semantic BKI finished in " << (end - start).toSec() << "s");
+    
     semantic_bki::MarkerArrayPub m_pub(nh, map_topic, resolution);
     for (auto it = map.begin_leaf(); it != map.end_leaf(); ++it) {
         if (it.get_node().get_state() == semantic_bki::State::OCCUPIED) {
@@ -97,8 +117,8 @@ int main(int argc, char **argv) {
             m_pub.insert_point3d_semantics(p.x(), p.y(), p.z(), it.get_size(), semantics);
         }
     }
-
     m_pub.publish();
+
     ros::spin();
 
     return 0;

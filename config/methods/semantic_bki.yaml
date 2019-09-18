@@ -1,7 +1,6 @@
 # SemanticBGKOctoMap config
 
 # Map topic, grid cell mininum resolution
-topic: /occupied_cells_vis_array
 resolution: 0.1
 block_depth: 3 # Test-data octree depth (see Wang & Englot ICRA 2016)
 
