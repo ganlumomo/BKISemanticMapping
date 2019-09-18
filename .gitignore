@@ -1,4 +1,5 @@
 data/
+.ipynb_checkpoints/
 
 # Prerequisites
 *.d
