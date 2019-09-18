@@ -1,12 +1,11 @@
-#ifndef LA3DM_SEMANTIC_BGK_OCTREE_H
-#define LA3DM_SEMANTIC_BGK_OCTREE_H
+#pragma once
 
 #include <stack>
 #include <vector>
 #include "point3f.h"
-#include "semantic_bgkoctree_node.h"
+#include "bkioctree_node.h"
 
-namespace la3dm {
+namespace semantic_bki {
 
     /// Hash key to index OcTree nodes given depth and the index in that layer.
     typedef int OcTreeHashKey;
@@ -157,5 +156,3 @@ namespace la3dm {
         static unsigned short max_depth;
     };
 }
-
-#endif // LA3DM_SEMANTIC_BGK_OCTREE_H

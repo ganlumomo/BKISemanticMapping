@@ -1,10 +1,9 @@
-#ifndef LA3DM_VECTOR3_H
-#define LA3DM_VECTOR3_H
+#pragma once
 
 #include <iostream>
 #include <math.h>
 
-namespace la3dm {
+namespace semantic_bki {
 
     /*!
      * \brief This class represents a three-dimensional vector
@@ -267,10 +266,8 @@ namespace la3dm {
     };
 
     //! user friendly output in format (x y z)
-    std::ostream &operator<<(std::ostream &out, la3dm::Vector3 const &v);
+    std::ostream &operator<<(std::ostream &out, semantic_bki::Vector3 const &v);
 
     typedef Vector3 point3f;
 
 }
-
-#endif // LA3DM_VECTOR3_H

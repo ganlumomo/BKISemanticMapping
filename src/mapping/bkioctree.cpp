@@ -1,8 +1,8 @@
-#include "semantic_bgkoctree.h"
+#include "bkioctree.h"
 
 #include <cmath>
 
-namespace la3dm {
+namespace semantic_bki {
 
     unsigned short SemanticOcTree::max_depth = 0;
 

@@ -1,7 +1,7 @@
-#include "semantic_bgkoctree_node.h"
+#include "bkioctree_node.h"
 #include <cmath>
 
-namespace la3dm {
+namespace semantic_bki {
 
     /// Default static values
     float Occupancy::sf2 = 1.0f;

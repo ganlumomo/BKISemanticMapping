@@ -1,5 +1,4 @@
-#ifndef LA3DM_SEMANTIC_BGK_OCCUPANCY_H
-#define LA3DM_SEMANTIC_BGK_OCCUPANCY_H
+#pragma once
 
 #include <iostream>
 #include <fstream>
@@ -7,7 +6,7 @@
 #include <vector>
 #include <algorithm>
 
-namespace la3dm {
+namespace semantic_bki {
 
     /// Occupancy state: before pruning: FREE, OCCUPIED, UNKNOWN; after pruning: PRUNED
     enum class State : char {
@@ -123,5 +122,3 @@ namespace la3dm {
 
     typedef Occupancy SemanticOcTreeNode;
 }
-
-#endif // LA3DM_SEMANTIC_BGK_OCCUPANCY_H

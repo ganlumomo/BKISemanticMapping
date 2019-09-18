@@ -1,13 +1,12 @@
-#ifndef LA3DM_SEMANTIC_BGK_BLOCK_H
-#define LA3DM_SEMANTIC_BGK_BLOCK_H
+#pragma once
 
 #include <unordered_map>
 #include <array>
 #include "point3f.h"
-#include "semantic_bgkoctree_node.h"
-#include "semantic_bgkoctree.h"
+#include "bkioctree_node.h"
+#include "bkioctree.h"
 
-namespace la3dm {
+namespace semantic_bki {
 
     /// Hask key to index Block given block's center.
     typedef int64_t BlockHashKey;
@@ -105,5 +104,3 @@ namespace la3dm {
         point3f center;
     };
 }
-
-#endif // LA3DM_SEMANTIC_BGK_BLOCK_H

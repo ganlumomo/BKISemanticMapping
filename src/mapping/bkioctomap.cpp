@@ -1,7 +1,7 @@
 #include <algorithm>
 #include <pcl/filters/voxel_grid.h>
-#include "semantic_bgkoctomap.h"
-#include "semantic_bgkinference.h"
+#include "bkioctomap.h"
+#include "bki.h"
 
 using std::vector;
 
@@ -15,7 +15,7 @@ using std::vector;
 std::cout << "Debug: " << msg << std::endl; }
 #endif
 
-namespace la3dm {
+namespace semantic_bki {
 
     SemanticBGKOctoMap::SemanticBGKOctoMap() : SemanticBGKOctoMap(0.1f, // resolution
                                         4, // block_depth

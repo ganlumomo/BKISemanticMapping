@@ -1,9 +1,9 @@
-#include "semantic_bgkblock.h"
+#include "bkiblock.h"
 #include <queue>
 #include <algorithm>
 #include <iostream>
 
-namespace la3dm {
+namespace semantic_bki {
 
     std::unordered_map<OcTreeHashKey, point3f> init_key_loc_map(float resolution, unsigned short max_depth) {
         std::unordered_map<OcTreeHashKey, point3f> key_loc_map;

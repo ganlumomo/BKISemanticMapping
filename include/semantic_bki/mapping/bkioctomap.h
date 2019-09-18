@@ -1,15 +1,14 @@
-#ifndef LA3DM_SEMANTIC_BGK_OCTOMAP_H
-#define LA3DM_SEMANTIC_BGK_OCTOMAP_H
+#pragma once
 
 #include <unordered_map>
 #include <vector>
 #include <pcl/point_cloud.h>
 #include <pcl/point_types.h>
 #include "rtree.h"
-#include "semantic_bgkblock.h"
-#include "semantic_bgkoctree_node.h"
+#include "bkiblock.h"
+#include "bkioctree_node.h"
 
-namespace la3dm {
+namespace semantic_bki {
 
     /// PCL PointCloud types as input
     typedef pcl::PointXYZL PCLPointType;
@@ -379,5 +378,3 @@ namespace la3dm {
     };
 
 }
-
-#endif // LA3DM_SEMANTIC_BGKOCTOMAP_H

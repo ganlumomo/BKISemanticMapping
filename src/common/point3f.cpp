@@ -3,7 +3,7 @@
 #include <math.h>
 #include <string.h>
 
-namespace la3dm {
+namespace semantic_bki {
 
     Vector3 &Vector3::rotate_IP(double roll, double pitch, double yaw) {
         double x, y, z;
@@ -70,7 +70,7 @@ namespace la3dm {
     }
 
 
-    std::ostream &operator<<(std::ostream &out, la3dm::Vector3 const &v) {
+    std::ostream &operator<<(std::ostream &out, semantic_bki::Vector3 const &v) {
         return out << '(' << v.x() << ' ' << v.y() << ' ' << v.z() << ')';
     }
 }

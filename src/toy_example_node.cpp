@@ -1,10 +1,10 @@
 #include <string>
 #include <iostream>
 #include <ros/ros.h>
-#include "semantic_bgkoctomap.h"
+#include "bkioctomap.h"
 #include "markerarray_pub.h"
 
-void load_pcd(std::string filename, la3dm::point3f &origin, la3dm::PCLPointCloud &cloud) {
+void load_pcd(std::string filename, semantic_bki::point3f &origin, semantic_bki::PCLPointCloud &cloud) {
     pcl::PCLPointCloud2 cloud2;
     Eigen::Vector4f _origin;
     Eigen::Quaternionf orientaion;
@@ -16,7 +16,7 @@ void load_pcd(std::string filename, la3dm::point3f &origin, la3dm::PCLPointCloud
 }
 
 int main(int argc, char **argv) {
-    ros::init(argc, argv, "semantic_bgkoctomap_static_node");
+    ros::init(argc, argv, "toy_example_node");
     ros::NodeHandle nh("~");
 
     std::string dir;
@@ -84,12 +84,12 @@ int main(int argc, char **argv) {
             "prior_B: " << prior_B
             );
 
-    la3dm::SemanticBGKOctoMap map(resolution, block_depth, sf2, ell, nc, free_thresh, occupied_thresh, var_thresh, prior_A, prior_B);
+    semantic_bki::SemanticBGKOctoMap map(resolution, block_depth, sf2, ell, nc, free_thresh, occupied_thresh, var_thresh, prior_A, prior_B);
 
     ros::Time start = ros::Time::now();
     for (int scan_id = 1; scan_id <= scan_num; ++scan_id) {
-        la3dm::PCLPointCloud cloud;
-        la3dm::point3f origin;
+        semantic_bki::PCLPointCloud cloud;
+        semantic_bki::point3f origin;
         std::string filename(dir + "/" + prefix + "_" + std::to_string(scan_id) + ".pcd");
         load_pcd(filename, origin, cloud);
 
@@ -101,9 +101,9 @@ int main(int argc, char **argv) {
 
 
     ///////// Publish Map /////////////////////
-    la3dm::MarkerArrayPub m_pub(nh, map_topic, 0.1f);
+    semantic_bki::MarkerArrayPub m_pub(nh, map_topic, 0.1f);
     if (min_z == max_z) {
-        la3dm::point3f lim_min, lim_max;
+        semantic_bki::point3f lim_min, lim_max;
         map.get_bbox(lim_min, lim_max);
         min_z = lim_min.z();
         max_z = lim_max.z();
@@ -113,7 +113,7 @@ int main(int argc, char **argv) {
     float max_var = std::numeric_limits<float>::min();
     float min_var = std::numeric_limits<float>::max(); 
     for (auto it = map.begin_leaf(); it != map.end_leaf(); ++it) {
-      if (it.get_node().get_state() == la3dm::State::OCCUPIED) {
+      if (it.get_node().get_state() == semantic_bki::State::OCCUPIED) {
         if (original_size) {
           int semantics = it.get_node().get_semantics();
           std::vector<float> vars = it.get_node().get_vars();
@@ -128,9 +128,9 @@ int main(int argc, char **argv) {
     std::cout << "min_var: " << min_var << std::endl;
 
     for (auto it = map.begin_leaf(); it != map.end_leaf(); ++it) {
-        if (it.get_node().get_state() == la3dm::State::OCCUPIED) {
+        if (it.get_node().get_state() == semantic_bki::State::OCCUPIED) {
             if (original_size) {
-                la3dm::point3f p = it.get_loc();
+                semantic_bki::point3f p = it.get_loc();
                 int semantics = it.get_node().get_semantics();
 		            std::vector<float> vars = it.get_node().get_vars();
                 m_pub.insert_point3d_semantics(p.x(), p.y(), p.z(), it.get_size(), semantics);

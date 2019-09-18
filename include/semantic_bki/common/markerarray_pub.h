@@ -7,7 +7,7 @@
 #include <cmath>
 #include <string>
 
-namespace la3dm {
+namespace semantic_bki {
 
     double interpolate( double val, double y0, double x0, double y1, double x1 ) {
         return (val-x0)*(y1-y0)/(x1-x0) + y0;

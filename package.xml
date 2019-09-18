@@ -1,8 +1,8 @@
 <?xml version="1.0"?>
 <package>
-  <name>semantic_bgkoctomap</name>
+  <name>semantic_bki</name>
   <version>0.0.1</version>
-  <description>The semantic_bgkoctomap package</description>
+  <description>The semantic_bki package</description>
 
   <!-- One maintainer tag required, multiple allowed, one person per tag --> 
   <!-- Example:  -->

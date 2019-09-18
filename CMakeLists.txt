@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 2.8.3)
-project(semantic_bgkoctomap)
+project(semantic_bki)
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -o3")
 
@@ -116,9 +116,9 @@ catkin_package(
 ## Your package locations should be listed before other locations
 # include_directories(include)
 include_directories(
-        include/semantic_bgkoctomap
-        include/common
-        ${catkin_INCLUDE_DIRS}
+  include/semantic_bki/common
+  include/semantic_bki/mapping
+  ${catkin_INCLUDE_DIRS}
 )
 
 ## Declare a cpp library
@@ -130,17 +130,17 @@ include_directories(
 set(COMMON_SOURCE_FILES src/common/point3f)
 
 # Files for SEMANTIC BGK source
-set(SEMANTIC_BGK_SOURCE_FILES
-    src/semantic_bgkoctomap/semantic_bgkblock.cpp
-    src/semantic_bgkoctomap/semantic_bgkoctomap.cpp
-    src/semantic_bgkoctomap/semantic_bgkoctree_node.cpp
-    src/semantic_bgkoctomap/semantic_bgkoctree.cpp)
+set(MAPPING_SOURCE_FILES
+    src/mapping/bkiblock.cpp
+    src/mapping/bkioctomap.cpp
+    src/mapping/bkioctree_node.cpp
+    src/mapping/bkioctree.cpp)
 
 
-add_executable(semantic_bgkoctomap_node 
-  ${SEMANTIC_BGK_SOURCE_FILES}
+add_executable(toy_example_node
+  ${MAPPING_SOURCE_FILES}
   ${COMMON_SOURCE_FILES}
-  src/semantic_bgkoctomap/semantic_bgkoctomap_node.cpp
+  src/toy_example_node.cpp
 )
 
 
@@ -150,7 +150,7 @@ add_executable(semantic_bgkoctomap_node
 
 ## Specify libraries to link a library or executable target against
 
-target_link_libraries(semantic_bgkoctomap_node
+target_link_libraries(toy_example_node
   ${catkin_LIBRARIES}
 )
 

@@ -1,9 +1,8 @@
-#ifndef LA3DM_SEMANTIC_BGK_H
-#define LA3DM_SEMANTIC_BGK_H
+#pragma once
 
-#include "semantic_bgkoctomap.h"
+#include "bkioctomap.h"
 
-namespace la3dm {
+namespace semantic_bki {
 
 	/*
      * @brief Bayesian Generalized Kernel Inference on Bernoulli distribution
@@ -185,4 +184,3 @@ namespace la3dm {
     typedef SemanticBGKInference<3, float> SemanticBGK3f;
 
 }
-#endif // LA3DM_SEMANTIC_BGK_H
