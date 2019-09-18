@@ -1,7 +1,7 @@
-#include "bkiblock.h"
 #include <queue>
 #include <algorithm>
-#include <iostream>
+
+#include "bkiblock.h"
 
 namespace semantic_bki {
 

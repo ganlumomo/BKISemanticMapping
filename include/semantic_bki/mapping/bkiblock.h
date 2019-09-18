@@ -2,6 +2,7 @@
 
 #include <unordered_map>
 #include <array>
+
 #include "point3f.h"
 #include "bkioctree_node.h"
 #include "bkioctree.h"
@@ -52,7 +53,7 @@ namespace semantic_bki {
 
         friend ExtendedBlock get_extended_block(BlockHashKey key);
 
-        friend class SemanticBGKOctoMap;
+        friend class SemanticBKIOctoMap;
 
     public:
         Block();

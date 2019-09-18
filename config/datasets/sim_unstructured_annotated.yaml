@@ -4,9 +4,6 @@
 scan_num: 12 # How many scans to use
 max_range: 8 # Sensor max range (m)
 
-# Bounds on map height
-min_z: 0
-max_z: 4.3
+num_class: 4
 
-original_size: true
 predict: false

@@ -26,19 +26,15 @@ int main(int argc, char **argv) {
     double max_range = -1;
     double resolution = 0.1;
     int block_depth = 4;
+    int num_class = 2;
     double sf2 = 1.0;
     double ell = 1.0;
-    int nc = 4;
+    float prior = 1.0f;
     double free_resolution = 0.5;
     double ds_resolution = 0.1;
+    float var_thresh = 1.0f;
     double free_thresh = 0.3;
     double occupied_thresh = 0.7;
-    double min_z = 0;
-    double max_z = 0;
-    bool original_size = false;
-    float var_thresh = 1.0f;
-    float prior_A = 1.0f;
-    float prior_B = 1.0f;
 
     nh.param<std::string>("dir", dir, dir);
     nh.param<std::string>("prefix", prefix, prefix);
@@ -47,19 +43,15 @@ int main(int argc, char **argv) {
     nh.param<double>("max_range", max_range, max_range);
     nh.param<double>("resolution", resolution, resolution);
     nh.param<int>("block_depth", block_depth, block_depth);
+    nh.param<int>("num_class", num_class, num_class);
     nh.param<double>("sf2", sf2, sf2);
     nh.param<double>("ell", ell, ell);
-    nh.param<int>("nc", nc, nc);
+    nh.param<float>("prior", prior, prior);
     nh.param<double>("free_resolution", free_resolution, free_resolution);
     nh.param<double>("ds_resolution", ds_resolution, ds_resolution);
+    nh.param<float>("var_thresh", var_thresh, var_thresh);
     nh.param<double>("free_thresh", free_thresh, free_thresh);
     nh.param<double>("occupied_thresh", occupied_thresh, occupied_thresh);
-    nh.param<double>("min_z", min_z, min_z);
-    nh.param<double>("max_z", max_z, max_z);
-    nh.param<bool>("original_size", original_size, original_size);
-    nh.param<float>("var_thresh", var_thresh, var_thresh);
-    nh.param<float>("prior_A", prior_A, prior_A);
-    nh.param<float>("prior_B", prior_B, prior_B);
 
     ROS_INFO_STREAM("Parameters:" << std::endl <<
             "dir: " << dir << std::endl <<
@@ -69,22 +61,18 @@ int main(int argc, char **argv) {
             "max_range: " << max_range << std::endl <<
             "resolution: " << resolution << std::endl <<
             "block_depth: " << block_depth << std::endl <<
+            "num_class: " << num_class << std::endl <<
             "sf2: " << sf2 << std::endl <<
             "ell: " << ell << std::endl <<
-            "nc: " << nc << std::endl <<
+            "prior: " << prior << std::endl <<
             "free_resolution: " << free_resolution << std::endl <<
             "ds_resolution: " << ds_resolution << std::endl <<
-            "free_thresh: " << free_thresh << std::endl <<
-            "occupied_thresh: " << occupied_thresh << std::endl <<
-            "min_z: " << min_z << std::endl <<
-            "max_z: " << max_z << std::endl <<
-            "original_size: " << original_size << std::endl <<
             "var_thresh: " << var_thresh << std::endl <<
-            "prior_A: " << prior_A << std::endl <<
-            "prior_B: " << prior_B
+            "free_thresh: " << free_thresh << std::endl <<
+            "occupied_thresh: " << occupied_thresh
             );
 
-    semantic_bki::SemanticBGKOctoMap map(resolution, block_depth, sf2, ell, nc, free_thresh, occupied_thresh, var_thresh, prior_A, prior_B);
+    semantic_bki::SemanticBKIOctoMap map(resolution, block_depth, num_class, sf2, ell, prior, var_thresh, free_thresh, occupied_thresh);
 
     ros::Time start = ros::Time::now();
     for (int scan_id = 1; scan_id <= scan_num; ++scan_id) {
@@ -101,41 +89,12 @@ int main(int argc, char **argv) {
 
 
     ///////// Publish Map /////////////////////
-    semantic_bki::MarkerArrayPub m_pub(nh, map_topic, 0.1f);
-    if (min_z == max_z) {
-        semantic_bki::point3f lim_min, lim_max;
-        map.get_bbox(lim_min, lim_max);
-        min_z = lim_min.z();
-        max_z = lim_max.z();
-    }
-
-    // Find max and min variance
-    float max_var = std::numeric_limits<float>::min();
-    float min_var = std::numeric_limits<float>::max(); 
-    for (auto it = map.begin_leaf(); it != map.end_leaf(); ++it) {
-      if (it.get_node().get_state() == semantic_bki::State::OCCUPIED) {
-        if (original_size) {
-          int semantics = it.get_node().get_semantics();
-          std::vector<float> vars = it.get_node().get_vars();
-          if (vars[semantics] > max_var)
-            max_var = vars[semantics];
-          if (vars[semantics] < min_var)
-            min_var = vars[semantics];
-        }
-      }
-    }
-    std::cout << "max_var: " << max_var << std::endl;
-    std::cout << "min_var: " << min_var << std::endl;
-
+    semantic_bki::MarkerArrayPub m_pub(nh, map_topic, resolution);
     for (auto it = map.begin_leaf(); it != map.end_leaf(); ++it) {
         if (it.get_node().get_state() == semantic_bki::State::OCCUPIED) {
-            if (original_size) {
-                semantic_bki::point3f p = it.get_loc();
-                int semantics = it.get_node().get_semantics();
-		            std::vector<float> vars = it.get_node().get_vars();
-                m_pub.insert_point3d_semantics(p.x(), p.y(), p.z(), it.get_size(), semantics);
-		            //m_pub.insert_point3d_variance(p.x(), p.y(), p.z(), min_var, std::min(var_thresh, max_var), it.get_size(), vars[semantics]);
-            }
+            semantic_bki::point3f p = it.get_loc();
+            int semantics = it.get_node().get_semantics();
+            m_pub.insert_point3d_semantics(p.x(), p.y(), p.z(), it.get_size(), semantics);
         }
     }
 

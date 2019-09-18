@@ -19,7 +19,7 @@ namespace semantic_bki {
         using MatrixDKType = Eigen::Matrix<T, -1, 1>;
         using MatrixYType = Eigen::Matrix<T, -1, 1>;
 
-        SemanticBGKInference(T sf2, T ell, int nc) : sf2(sf2), ell(ell), nc(nc), trained(false) { }
+        SemanticBGKInference(int nc, T sf2, T ell) : sf2(sf2), ell(ell), nc(nc), trained(false) { }
 
         /*
          * @brief Fit BGK Model

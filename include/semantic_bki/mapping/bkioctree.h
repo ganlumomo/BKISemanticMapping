@@ -2,6 +2,7 @@
 
 #include <stack>
 #include <vector>
+
 #include "point3f.h"
 #include "bkioctree_node.h"
 
@@ -26,7 +27,7 @@ namespace semantic_bki {
      * set before using OcTrees.
      */
     class SemanticOcTree {
-        friend class SemanticBGKOctoMap;
+        friend class SemanticBKIOctoMap;
 
     public:
         SemanticOcTree();

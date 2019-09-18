@@ -22,7 +22,7 @@ namespace semantic_bki {
      * depth are rooted. Occupancy values in one Block is predicted by 
      * its ExtendedBlock via Bayesian generalized kernel inference.
      */
-    class SemanticBGKOctoMap {
+    class SemanticBKIOctoMap {
     public:
         /// Types used internally
         typedef std::vector<point3f> PointCloud;
@@ -31,7 +31,7 @@ namespace semantic_bki {
         typedef RTree<GPPointType *, float, 3, float> MyRTree;
 
     public:
-        SemanticBGKOctoMap();
+        SemanticBKIOctoMap();
 
         /*
          * @param resolution (default 0.1m)
@@ -46,18 +46,17 @@ namespace semantic_bki {
          * @param free_thresh free threshold for Occupancy probability (default 0.3)
          * @param occupied_thresh occupied threshold for Occupancy probability (default 0.7)
          */
-        SemanticBGKOctoMap(float resolution,
+        SemanticBKIOctoMap(float resolution,
                 unsigned short block_depth,
+                int num_class,
                 float sf2,
                 float ell,
-                int nc,
-                float free_thresh,
-                float occupied_thresh,
+                float prior,
                 float var_thresh,
-                float prior_A,
-                float prior_B);
+                float free_thresh,
+                float occupied_thresh);
 
-        ~SemanticBGKOctoMap();
+        ~SemanticBKIOctoMap();
 
         /// Set resolution.
         void set_resolution(float resolution);
@@ -90,7 +89,7 @@ namespace semantic_bki {
 
         class RayCaster {
         public:
-            RayCaster(const SemanticBGKOctoMap *map, const point3f &start, const point3f &end) : map(map) {
+            RayCaster(const SemanticBKIOctoMap *map, const point3f &start, const point3f &end) : map(map) {
                 assert(map != nullptr);
 
                 _block_key = block_to_hash_key(start);
@@ -202,7 +201,7 @@ namespace semantic_bki {
             }
 
         private:
-            const SemanticBGKOctoMap *map;
+            const SemanticBKIOctoMap *map;
             Block *block;
             point3f block_lim;
             float block_size, resolution;
@@ -216,7 +215,7 @@ namespace semantic_bki {
         /// LeafIterator for iterating all leaf nodes in blocks
         class LeafIterator : public std::iterator<std::forward_iterator_tag, SemanticOcTreeNode> {
         public:
-            LeafIterator(const SemanticBGKOctoMap *map) {
+            LeafIterator(const SemanticBKIOctoMap *map) {
                 assert(map != nullptr);
 
                 block_it = map->block_arr.cbegin();

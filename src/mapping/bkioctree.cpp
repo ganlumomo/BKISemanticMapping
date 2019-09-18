@@ -1,6 +1,6 @@
-#include "bkioctree.h"
-
 #include <cmath>
+
+#include "bkioctree.h"
 
 namespace semantic_bki {
 
@@ -97,55 +97,6 @@ namespace semantic_bki {
                node_arr[depth] != nullptr &&
                node_arr[depth][index].get_state() != State::PRUNED;
     }
-
-    /*bool SemanticOcTree::prune() {
-        if (node_arr == nullptr)
-            return false;
-
-        bool pruned = false;
-        for (unsigned short depth = max_depth - 1; depth > 0; --depth) {
-            SemanticOcTreeNode *layer = node_arr[depth];
-            SemanticOcTreeNode *parent_layer = node_arr[depth - 1];
-            if (layer == nullptr)
-                continue;
-
-            bool empty_layer = true;
-            unsigned int n = (unsigned int) pow(8, depth);
-            for (unsigned short index = 0; index < n; index += 8) {
-                State state = layer[index].get_state();
-                if (state == State::UNKNOWN) {
-                    empty_layer = false;
-                    continue;
-                }
-                if (state ==  State::PRUNED)
-                    continue;
-
-                bool collapsible = true;
-                for (unsigned short i = 1; i < 8; ++i) {
-                    if (layer[index + i].get_state() != state) {
-                        collapsible = false;
-                        continue;
-                    }
-                }
-
-                if (collapsible) {
-                    parent_layer[(int) floor(index / 8)] = layer[index];
-                    for (unsigned short i = 0; i < 8; ++i) {
-                        layer[index + i].prune();
-                    }
-                    pruned = true;
-                } else {
-                    empty_layer = false;
-                }
-            }
-
-            if (empty_layer) {
-                delete[] layer;
-                node_arr[depth] = nullptr;
-            }
-        }
-        return pruned;
-    }*/
 
     SemanticOcTreeNode &SemanticOcTree::operator[](OcTreeHashKey key) const {
         unsigned short depth;
