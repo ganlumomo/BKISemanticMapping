@@ -25,6 +25,8 @@ $ roslaunch semantic_bki toy_example_node.launch
 
 ## Semantic Mapping using KITTI dataset
 
+<img src="https://raw.githubusercontent.com/ganlumomo/BKISemanticMapping/master/github/kitti_05.png" width=600>
+
 ### Download Data
 Please download [kitti_15](https://drive.google.com/file/d/19fy_OkVJSUZttf7l0CQGvsZmzKR-WdYy/view?usp=sharing) and uncompress it into the data folder.
 
