@@ -1,9 +1,13 @@
 # sim_unstructured_annotated config
 
+# Map information
+resolution: 0.1
+num_class: 4
+
+# Sampling resolutions
+free_resolution: 0.5 # Free space sampling resolution
+ds_resolution: 0.1 # Downsampling factor
+
 # Information about range-finder data
 scan_num: 12 # How many scans to use
 max_range: 8 # Sensor max range (m)
-
-num_class: 4
-
-predict: false

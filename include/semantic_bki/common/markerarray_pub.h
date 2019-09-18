@@ -445,7 +445,20 @@ namespace semantic_bki {
             }
         }
 
-        void insert_point3d_semantics(float x, float y, float z, float size, int c) {
+        void clear_map(float size) {
+          int depth = 0;
+          if (size > 0)
+            depth = (int) log2(size / 0.1);
+
+          std::cout << msg->markers[depth].points.size() << std::endl;
+          std::cout << msg->markers[depth].colors.size() << std::endl;
+          msg->markers[depth].points.clear();
+          msg->markers[depth].colors.clear();
+          std::cout << msg->markers[depth].points.size() << std::endl;
+          std::cout << msg->markers[depth].colors.size() << std::endl;
+        }
+
+        void insert_point3d_semantics(float x, float y, float z, float size, int c, int dataset) {
             geometry_msgs::Point center;
             center.x = x;
             center.y = y;
@@ -456,7 +469,13 @@ namespace semantic_bki {
                 depth = (int) log2(size / 0.1);
 
             msg->markers[depth].points.push_back(center);
-            msg->markers[depth].colors.push_back(SemanticMapColor(c));
+            switch (dataset) {
+              case 1:
+                msg->markers[depth].colors.push_back(KITTISemanticMapColor(c));
+                break;
+              default:
+                msg->markers[depth].colors.push_back(SemanticMapColor(c));
+            }
         }
 
         void insert_point3d_variance(float x, float y, float z, float min_v, float max_v, float size, float var) {

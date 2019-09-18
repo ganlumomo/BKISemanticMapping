@@ -118,7 +118,9 @@ catkin_package(
 include_directories(
   include/semantic_bki/common
   include/semantic_bki/mapping
+  include/semantic_bki/dataset_devkit
   ${catkin_INCLUDE_DIRS}
+  ${OpenCV_INCLUDE_DIRS}
 )
 
 ## Declare a cpp library
@@ -143,6 +145,11 @@ add_executable(toy_example_node
   src/toy_example_node.cpp
 )
 
+add_executable(kitti_node
+  ${MAPPING_SOURCE_FILES}
+  ${COMMON_SOURCE_FILES}
+  src/kitti_node.cpp
+)
 
 ## Add cmake target dependencies of the executable/library
 ## as an example, message headers may need to be generated before nodes
@@ -154,6 +161,10 @@ target_link_libraries(toy_example_node
   ${catkin_LIBRARIES}
 )
 
+target_link_libraries(kitti_node
+  ${catkin_LIBRARIES}
+  ${OpenCV_LIBRARIES}
+)
 
 #############
 ## Install ##

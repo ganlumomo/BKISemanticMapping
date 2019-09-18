@@ -18,59 +18,59 @@ void load_pcd(std::string filename, semantic_bki::point3f &origin, semantic_bki:
 int main(int argc, char **argv) {
     ros::init(argc, argv, "toy_example_node");
     ros::NodeHandle nh("~");
-
-    std::string dir;
-    std::string prefix;
-    int scan_num = 0;
+    
     std::string map_topic_csm("/semantic_csm");
     std::string map_topic("/semantic_bki");
     std::string var_topic_csm("/semantic_csm_variance");
     std::string var_topic("/semantic_bki_variance");
-    double max_range = -1;
-    double resolution = 0.1;
+    std::string dir;
+    std::string prefix;
     int block_depth = 4;
-    int num_class = 2;
     double sf2 = 1.0;
     double ell = 1.0;
     float prior = 1.0f;
-    double free_resolution = 0.5;
-    double ds_resolution = 0.1;
     float var_thresh = 1.0f;
     double free_thresh = 0.3;
     double occupied_thresh = 0.7;
+    double resolution = 0.1;
+    int num_class = 2;
+    double free_resolution = 0.5;
+    double ds_resolution = 0.1;
+    int scan_num = 0;
+    double max_range = -1;
 
     nh.param<std::string>("dir", dir, dir);
     nh.param<std::string>("prefix", prefix, prefix);
-    nh.param<int>("scan_num", scan_num, scan_num);
-    nh.param<double>("max_range", max_range, max_range);
-    nh.param<double>("resolution", resolution, resolution);
     nh.param<int>("block_depth", block_depth, block_depth);
-    nh.param<int>("num_class", num_class, num_class);
     nh.param<double>("sf2", sf2, sf2);
     nh.param<double>("ell", ell, ell);
     nh.param<float>("prior", prior, prior);
-    nh.param<double>("free_resolution", free_resolution, free_resolution);
-    nh.param<double>("ds_resolution", ds_resolution, ds_resolution);
     nh.param<float>("var_thresh", var_thresh, var_thresh);
     nh.param<double>("free_thresh", free_thresh, free_thresh);
     nh.param<double>("occupied_thresh", occupied_thresh, occupied_thresh);
-
+    nh.param<double>("resolution", resolution, resolution);
+    nh.param<int>("num_class", num_class, num_class);
+    nh.param<double>("free_resolution", free_resolution, free_resolution);
+    nh.param<double>("ds_resolution", ds_resolution, ds_resolution);
+    nh.param<int>("scan_num", scan_num, scan_num);
+    nh.param<double>("max_range", max_range, max_range);
+   
     ROS_INFO_STREAM("Parameters:" << std::endl <<
             "dir: " << dir << std::endl <<
             "prefix: " << prefix << std::endl <<
-            "scan_sum: " << scan_num << std::endl <<
-            "max_range: " << max_range << std::endl <<
-            "resolution: " << resolution << std::endl <<
             "block_depth: " << block_depth << std::endl <<
-            "num_class: " << num_class << std::endl <<
             "sf2: " << sf2 << std::endl <<
             "ell: " << ell << std::endl <<
             "prior: " << prior << std::endl <<
-            "free_resolution: " << free_resolution << std::endl <<
-            "ds_resolution: " << ds_resolution << std::endl <<
             "var_thresh: " << var_thresh << std::endl <<
             "free_thresh: " << free_thresh << std::endl <<
-            "occupied_thresh: " << occupied_thresh
+            "occupied_thresh: " << occupied_thresh << std::endl <<
+            "resolution: " << resolution << std::endl <<
+            "num_class: " << num_class << std::endl <<
+            "free_resolution: " << free_resolution << std::endl <<
+            "ds_resolution: " << ds_resolution << std::endl <<
+            "scan_sum: " << scan_num << std::endl <<
+            "max_range: " << max_range
             );
 
     /////////////////////// Semantic CSM //////////////////////
@@ -95,7 +95,7 @@ int main(int argc, char **argv) {
         if (it.get_node().get_state() == semantic_bki::State::OCCUPIED) {
             semantic_bki::point3f p = it.get_loc();
             int semantics = it.get_node().get_semantics();
-            m_pub_csm.insert_point3d_semantics(p.x(), p.y(), p.z(), it.get_size(), semantics);
+            m_pub_csm.insert_point3d_semantics(p.x(), p.y(), p.z(), it.get_size(), semantics, 0);
             std::vector<float> vars(num_class);
             it.get_node().get_vars(vars);
             if (vars[semantics] > max_var)
@@ -145,7 +145,7 @@ int main(int argc, char **argv) {
         if (it.get_node().get_state() == semantic_bki::State::OCCUPIED) {
             semantic_bki::point3f p = it.get_loc();
             int semantics = it.get_node().get_semantics();
-            m_pub.insert_point3d_semantics(p.x(), p.y(), p.z(), it.get_size(), semantics);
+            m_pub.insert_point3d_semantics(p.x(), p.y(), p.z(), it.get_size(), semantics, 0);
             std::vector<float> vars(num_class);
             it.get_node().get_vars(vars);
             if (vars[semantics] > max_var)

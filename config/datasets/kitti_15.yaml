@@ -1,0 +1,31 @@
+# kitti_15 config
+
+# Map information
+resolution: 0.1
+num_class: 12 # Number of classes
+
+# Sampling resolutions
+free_resolution: 100 # Free space sampling resolution
+ds_resolution: 0.1 # Downsampling factor
+
+# Information about range-finder data
+scan_num: 100 # How many scans to use
+max_range: -1 # Sensor max range (m)
+
+# Dataset information
+dir: /home/ganlu/la3dm_ws/src/semantic_3d_mapping/grid_sensor/data_kitti_15
+left_img_prefix: rgb_img
+depth_img_prefix: depth_img
+label_bin_prefix: label_binary
+camera_pose_file: CameraTrajectory.txt
+evaluation_list_file: evaluatioList.txt
+reproj_img_prefix: reproj_img
+
+image_width: 1241
+image_height: 376
+focal_x: 718.856
+focal_y: 718.856
+center_x: 607.1928
+center_y: 185.2157
+depth_scaling: 2000
+reproject: true
