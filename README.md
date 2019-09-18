@@ -28,12 +28,14 @@ $ roslaunch semantic_bki toy_example_node.launch
 <img src="https://raw.githubusercontent.com/ganlumomo/BKISemanticMapping/master/github/kitti_05.png" width=600>
 
 ### Download Data
-Please download [kitti_15](https://drive.google.com/file/d/19fy_OkVJSUZttf7l0CQGvsZmzKR-WdYy/view?usp=sharing) and uncompress it into the data folder.
+Please download [data_kitti_15](https://drive.google.com/file/d/1dIHRrsA7rZSRJ6M9Uz_75ZxcHHY96Gmb/view?usp=sharing) and uncompress it into the data folder.
 
 ### Running
 ```bash
 $ roslaunch semantic_bki kitti_node.launch
 ```
+You will see semantic map in RViz. It also projects 3D grid onto 2D image for evaluation, stored at /data/data_kitti_05/reproj_img.
+
 ### Evaluation
 TODO
 
