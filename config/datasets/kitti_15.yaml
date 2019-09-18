@@ -28,3 +28,4 @@ center_x: 607.1928
 center_y: 185.2157
 depth_scaling: 2000
 reproject: true
+visualize: true

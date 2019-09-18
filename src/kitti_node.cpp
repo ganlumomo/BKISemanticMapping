@@ -41,6 +41,7 @@ int main(int argc, char **argv) {
     float center_y = 183.1104;
     float depth_scaling = 2000;
     bool reproject = false;
+    bool visualize = false;
 
     nh.param<int>("block_depth", block_depth, block_depth);
     nh.param<double>("sf2", sf2, sf2);
@@ -72,6 +73,7 @@ int main(int argc, char **argv) {
     nh.param<float>("center_y", center_y, center_y);
     nh.param<float>("depth_scaling", depth_scaling, depth_scaling);
     nh.param<bool>("reproject", reproject, reproject);
+    nh.param<bool>("visualize", visualize, visualize);
 
     ROS_INFO_STREAM("Parameters:" << std::endl <<
       "block_depth: " << block_depth << std::endl <<
@@ -103,7 +105,8 @@ int main(int argc, char **argv) {
       "center_x: " << center_x << std::endl <<
       "center_y: " << center_y << std::endl <<
       "depth_scaling: " << depth_scaling << std::endl <<
-      "reproject: " << reproject
+      "reproject: " << reproject << std::endl <<
+      "visualize" << visualize
       );
 
 
@@ -143,15 +146,16 @@ int main(int argc, char **argv) {
       if (reproject)
         kitti_data.reproject_imgs(scan_id, map); 
       
-
-      m_pub.clear_map(resolution);
-      for (auto it = map.begin_leaf(); it != map.end_leaf(); ++it) {
-        if (it.get_node().get_state() == semantic_bki::State::OCCUPIED) {
-          semantic_bki::point3f p = it.get_loc();
-          m_pub.insert_point3d_semantics(p.x(), p.y(), p.z(), it.get_size(), it.get_node().get_semantics(), 1);
+      if (visualize) {
+        m_pub.clear_map(resolution);
+        for (auto it = map.begin_leaf(); it != map.end_leaf(); ++it) {
+          if (it.get_node().get_state() == semantic_bki::State::OCCUPIED) {
+            semantic_bki::point3f p = it.get_loc();
+            m_pub.insert_point3d_semantics(p.x(), p.y(), p.z(), it.get_size(), it.get_node().get_semantics(), 1);
+          }
         }
+        m_pub.publish();
       }
-      m_pub.publish();
     }
     ros::Time end = ros::Time::now();
     ROS_INFO_STREAM("Mapping finished in " << (end - start).toSec() << "s");

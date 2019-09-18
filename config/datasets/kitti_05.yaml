@@ -13,7 +13,6 @@ scan_num: 800 # How many scans to use
 max_range: -1 # Sensor max range (m)
 
 # Dataset information
-dir: /home/ganlu/la3dm_ws/src/semantic_3d_mapping/grid_sensor/data_kitti_05
 left_img_prefix: rgb_img
 depth_img_prefix: depth_img
 label_bin_prefix: label_binary
@@ -29,3 +28,4 @@ center_x: 601.8873
 center_y: 183.1104
 depth_scaling: 2000
 reproject: true
+visualize: true

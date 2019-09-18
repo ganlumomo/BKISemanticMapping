@@ -450,12 +450,8 @@ namespace semantic_bki {
           if (size > 0)
             depth = (int) log2(size / 0.1);
 
-          std::cout << msg->markers[depth].points.size() << std::endl;
-          std::cout << msg->markers[depth].colors.size() << std::endl;
           msg->markers[depth].points.clear();
           msg->markers[depth].colors.clear();
-          std::cout << msg->markers[depth].points.size() << std::endl;
-          std::cout << msg->markers[depth].colors.size() << std::endl;
         }
 
         void insert_point3d_semantics(float x, float y, float z, float size, int c, int dataset) {
