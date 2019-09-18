@@ -1,8 +1,8 @@
 # BKISemanticMapping
 Bayesian Spatial Kernel Smoothing for Scalable Dense Semantic Mapping
 
-<img src="https://raw.githubusercontent.com/ganlumomo/BKISemanticMapping/master/toy_example_semantic_csm.png" width="400"><img src="https://raw.githubusercontent.com/ganlumomo/BKISemanticMapping/master/toy_example_semantic_bki.png" width="400">
-
+<img src="https://raw.githubusercontent.com/ganlumomo/BKISemanticMapping/master/github/toy_example_semantic_csm.png" width="400"><img src="https://raw.githubusercontent.com/ganlumomo/BKISemanticMapping/master/github/toy_example_semantic_bki.png" width="400">
+<img src="https://raw.githubusercontent.com/ganlumomo/BKISemanticMapping/master/github/toy_example_semantic_csm_variance.png" width="400"><img src="https://raw.githubusercontent.com/ganlumomo/BKISemanticMapping/master/github/toy_example_semantic_bki_variance.png" width="400">
 ## Getting Started
 
 ### Building with catkin
