@@ -37,7 +37,7 @@ $ roslaunch semantic_bki kitti_node.launch
 You will see semantic map in RViz. It also projects 3D grid onto 2D image for evaluation, stored at /data/data_kitti_05/reproj_img.
 
 ### Evaluation
-TODO
+Evaluation code is provided in kitti_evaluation.ipynb. You may modify the directory names to run it.
 
 
 ## Semantic Mapping using SemanticKITTI dataset
