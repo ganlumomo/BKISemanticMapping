@@ -16,6 +16,13 @@ catkin_ws$ catkin_make
 catkin_ws$ source ~/catkin_ws/devel/setup.bash
 ```
 
+### Building using Intel C++ compiler (optional for better speed performance)
+```bash
+catkin_ws$ source opt/intel/compilers_and_libraries/linux/bin/compilervars.sh intel64
+catkin_ws$ catkin_make -DCMAKE_C_COMPILER=icc -DCMAKE_CXX_COMPILER=icpc
+catkin_ws$ source ~/catkin_ws/devel/setup.bash
+```
+
 ### Running the Demo
 
 ```bash
