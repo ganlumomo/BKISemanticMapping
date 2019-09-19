@@ -18,5 +18,5 @@ input_label_prefix: predictions/
 lidar_pose_file: poses.txt
 gt_label_prefix: labels/
 evaluation_result_prefix: evaluation
-query: false
+query: true
 visualize: true
