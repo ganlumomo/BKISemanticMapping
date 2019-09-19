@@ -34,7 +34,7 @@ Please download [data_kitti_15](https://drive.google.com/file/d/1dIHRrsA7rZSRJ6M
 ```bash
 $ roslaunch semantic_bki kitti_node.launch
 ```
-You will see semantic map in RViz. It also projects 3D grid onto 2D image for evaluation, stored at /data/data_kitti_05/reproj_img.
+You will see semantic map in RViz. It also projects 3D grid onto 2D image for evaluation, stored at data/data_kitti_05/reproj_img.
 
 ### Evaluation
 Evaluation code is provided in kitti_evaluation.ipynb. You may modify the directory names to run it.
@@ -42,8 +42,16 @@ Evaluation code is provided in kitti_evaluation.ipynb. You may modify the direct
 
 ## Semantic Mapping using SemanticKITTI dataset
 
-<img src="https://raw.githubusercontent.com/ganlumomo/BKISemanticMapping/master/github/semantic_kitti_seq05.png" width=600>
-TODO
+<img src="https://raw.githubusercontent.com/ganlumomo/BKISemanticMapping/master/github/semantic_kitti_seq05.png" width=430><img src="https://raw.githubusercontent.com/ganlumomo/BKISemanticMapping/master/github/semantic_kitti_seq04.png" width=430>
+
+### Download Data
+Please download [semantickitti_04](https://drive.google.com/file/d/19Dv1jQqf-VGKS2qvbygFlUzQoSvu17E5/view?usp=sharing) and uncompress it into the data folder.
+
+### Running
+```bash
+$ roslaunch semantic_bki semantickitti_node.launch
+```
+You will see semantic map in RViz. It also query each ground truth point for evaluation, stored at data/semantickitti_04/evaluations.
 
 
 ## Relevant Publications
