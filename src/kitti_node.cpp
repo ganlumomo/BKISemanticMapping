@@ -19,7 +19,7 @@ int main(int argc, char **argv) {
     double free_thresh = 0.3;
     double occupied_thresh = 0.7;
     double resolution = 0.1;
-    int num_class = 12;
+    int num_class = 2;
     double free_resolution = 0.5;
     double ds_resolution = 0.1;
     int scan_num = 0;

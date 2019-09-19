@@ -151,6 +151,12 @@ add_executable(kitti_node
   src/kitti_node.cpp
 )
 
+add_executable(semantickitti_node
+  ${MAPPING_SOURCE_FILES}
+  ${COMMON_SOURCE_FILES}
+  src/semantickitti_node.cpp
+)
+
 ## Add cmake target dependencies of the executable/library
 ## as an example, message headers may need to be generated before nodes
 # add_dependencies(BGKOctoMap_node BGKOctoMap_generate_messages_cpp)
@@ -162,6 +168,11 @@ target_link_libraries(toy_example_node
 )
 
 target_link_libraries(kitti_node
+  ${catkin_LIBRARIES}
+  ${OpenCV_LIBRARIES}
+)
+
+target_link_libraries(semantickitti_node
   ${catkin_LIBRARIES}
   ${OpenCV_LIBRARIES}
 )
