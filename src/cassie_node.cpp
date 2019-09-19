@@ -23,6 +23,7 @@ int main(int argc, char **argv) {
     double free_resolution = 0.5;
     double ds_resolution = 0.1;
     double max_range = -1;
+    bool visualize = false;
     
     nh.param<std::string>("topic", map_topic, map_topic);
     nh.param<int>("block_depth", block_depth, block_depth);
@@ -37,6 +38,7 @@ int main(int argc, char **argv) {
     nh.param<double>("free_resolution", free_resolution, free_resolution);
     nh.param<double>("ds_resolution", ds_resolution, ds_resolution);
     nh.param<double>("max_range", max_range, max_range);
+    nh.param<bool>("visualize", visualize, visualize);
     
     ROS_INFO_STREAM("Parameters:" << std::endl <<
       "topic: " << map_topic << std::endl <<
@@ -51,7 +53,8 @@ int main(int argc, char **argv) {
       "num_class: " << num_class << std::endl <<
       "free_resolution: " << free_resolution << std::endl <<
       "ds_resolution: " << ds_resolution << std::endl <<
-      "max_range: " << max_range
+      "max_range: " << max_range << std::endl <<
+      "visualize: " << visualize
       );
 
     
@@ -60,7 +63,7 @@ int main(int argc, char **argv) {
                            sf2, ell, prior,
                            var_thresh, free_thresh, occupied_thresh,
                            ds_resolution, free_resolution, max_range,
-                           map_topic);
+                           map_topic, visualize);
     ros::Subscriber sub = nh.subscribe("/labeled_pointcloud", 5000, &CassieData::PointCloudCallback, &cassie_data);
 
     ros::spin();

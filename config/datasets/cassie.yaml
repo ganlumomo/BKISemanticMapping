@@ -1,4 +1,4 @@
-# semantickitti_04 config
+# cassie config
 
 # Map information
 resolution: 0.1
@@ -6,7 +6,7 @@ num_class: 14 # Number of classes
 
 # Sampling resolutions
 free_resolution: 100 # Free space sampling resolution
-ds_resolution: 0.1 # Downsampling factor
+ds_resolution: -1 # Downsampling factor
 
 # Information about range-finder data
 max_range: 10 # Sensor max range (m)

@@ -2,6 +2,7 @@
 
 #include <fstream>
 #include <math.h>
+#include <chrono>
 
 #include <ros/ros.h>
 #include <sensor_msgs/PointCloud.h>
@@ -11,6 +12,8 @@
 #include <pcl/common/transforms.h>
 #include <pcl/io/pcd_io.h>
 
+using namespace std::chrono;
+
 class CassieData {
   public:
     CassieData(ros::NodeHandle& nh,
@@ -18,18 +21,20 @@ class CassieData {
              double sf2, double ell, float prior,
              float var_thresh, double free_thresh, double occupied_thresh,
              double ds_resolution, double free_resolution, double max_range,
-             std::string map_topic)
+             std::string map_topic, bool visualize)
       : nh_(nh)
       , resolution_(resolution)
       , ds_resolution_(ds_resolution)
       , free_resolution_(free_resolution)
       , max_range_(max_range)
-      , map_topic_(map_topic) {
+      , map_topic_(map_topic)
+      , visualize_(visualize) {
         map_ = new semantic_bki::SemanticBKIOctoMap(resolution, block_depth, num_class, sf2, ell, prior, var_thresh, free_thresh, occupied_thresh);
       }
 
     // Data preprocess
     void PointCloudCallback(const sensor_msgs::PointCloudConstPtr& cloud_msg) {
+      auto start = high_resolution_clock::now();
       long long cloud_msg_time = (long long)(round((double)cloud_msg->header.stamp.toNSec() / 1000.0) + 0.1);
 
       // Save pcd files
@@ -72,8 +77,12 @@ class CassieData {
       origin.y() = t_eigen.matrix()(1, 3);
       origin.z() = t_eigen.matrix()(2, 3);
       map_->insert_pointcloud(cloud, origin, ds_resolution_, free_resolution_, max_range_);
-      std::cout << "Inserted point cloud at " << cloud_msg_time <<std::endl;
-      publish_map();
+      auto stop = high_resolution_clock::now();
+      auto duration = duration_cast<milliseconds>(stop - start);
+      std::cout << "Finished in " << duration.count() << " ms." << std::endl;
+      
+      if (visualize_)
+        publish_map();
     }
 
     void publish_map() {
@@ -94,6 +103,7 @@ class CassieData {
     double free_resolution_;
     double max_range_;
     std::string map_topic_;
+    bool visualize_;
     semantic_bki::SemanticBKIOctoMap* map_;
     tf::TransformListener listener_;
 };
