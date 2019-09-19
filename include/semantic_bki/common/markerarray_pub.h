@@ -472,6 +472,9 @@ namespace semantic_bki {
               case 2:
                 msg->markers[depth].colors.push_back(SemanticKITTISemanticMapColor(c));
                 break;
+              case 3:
+                msg->markers[depth].colors.push_back(NCLTSemanticMapColor(c));
+                break;
               default:
                 msg->markers[depth].colors.push_back(SemanticMapColor(c));
             }
