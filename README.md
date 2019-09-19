@@ -53,6 +53,9 @@ $ roslaunch semantic_bki semantickitti_node.launch
 ```
 You will see semantic map in RViz. It also query each ground truth point for evaluation, stored at data/semantickitti_04/evaluations.
 
+### Evaluation
+Evaluation code is provided in semantickitti_evaluation.ipynb. You may modify the directory names to run it, or follow the guideline in [semantic-kitti-api](https://github.com/PRBonn/semantic-kitti-api) for evaluation.
+
 
 ## Relevant Publications
 
