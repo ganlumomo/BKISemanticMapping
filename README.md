@@ -65,7 +65,7 @@ Bayesian Spatial Kernel Smoothing for Scalable Dense Semantic Mapping ([PDF](htt
 ```
 @article{gan2019bayesian,
   title={Bayesian Spatial Kernel Smoothing for Scalable Dense Semantic Mapping},
-  author={Gan, Lu and Zhang, Ray and Grizzle, Jessy W and Eustice, Ryan M and Jadidi, Maani},
+  author={Gan, Lu and Zhang, Ray and Grizzle, Jessy W and Eustice, Ryan M and Ghaffari, Maani},
   journal={arXiv preprint arXiv:1909.04631},
   year={2019}
 }
