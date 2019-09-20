@@ -7,7 +7,7 @@
     <arg name="data_config" value="$(arg pkg)/config/datasets/" />
 
     <node type="rviz" name="rviz" pkg="rviz" args="-d $(find semantic_bki)/rviz/cassie_node.rviz" />
-    <node pkg="semantic_bki" type="cassie_node" name="cassie_node" output="screen">
+    <node pkg="semantic_bki" type="cassie_node" name="cassie_node" output="screen" launch-prefix="gdb -ex run --args">
 
         <!-- Load method configuration from file -->
         <rosparam file="$(arg method_config)/$(arg method).yaml" command="load" />

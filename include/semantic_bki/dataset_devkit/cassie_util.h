@@ -30,6 +30,7 @@ class CassieData {
       , map_topic_(map_topic)
       , visualize_(visualize) {
         map_ = new semantic_bki::SemanticBKIOctoMap(resolution, block_depth, num_class, sf2, ell, prior, var_thresh, free_thresh, occupied_thresh);
+        m_pub_ = new semantic_bki::MarkerArrayPub(nh_, map_topic_, resolution_);
       }
 
     // Data preprocess
@@ -86,14 +87,14 @@ class CassieData {
     }
 
     void publish_map() {
-      semantic_bki::MarkerArrayPub m_pub(nh_, map_topic_, resolution_);
+      m_pub_->clear_map(resolution_);
       for (auto it = map_->begin_leaf(); it != map_->end_leaf(); ++it) {
         if (it.get_node().get_state() == semantic_bki::State::OCCUPIED) {
           semantic_bki::point3f p = it.get_loc();
-          m_pub.insert_point3d_semantics(p.x(), p.y(), p.z(), it.get_size(), it.get_node().get_semantics(), 3);
+          m_pub_->insert_point3d_semantics(p.x(), p.y(), p.z(), it.get_size(), it.get_node().get_semantics(), 3);
         }
       }
-      m_pub.publish();
+      m_pub_->publish();
     }
 
   private:
@@ -105,5 +106,6 @@ class CassieData {
     std::string map_topic_;
     bool visualize_;
     semantic_bki::SemanticBKIOctoMap* map_;
+    semantic_bki::MarkerArrayPub* m_pub_;
     tf::TransformListener listener_;
 };
