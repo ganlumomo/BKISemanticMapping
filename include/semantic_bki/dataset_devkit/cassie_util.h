@@ -29,12 +29,15 @@ class CassieData {
       , max_range_(max_range)
       , map_topic_(map_topic)
       , visualize_(visualize) {
-        map_ = new semantic_bki::SemanticBKIOctoMap(resolution, block_depth, num_class, sf2, ell, prior, var_thresh, free_thresh, occupied_thresh);
+        map_ = new semantic_bki::SemanticBKIOctoMap(resolution, 1, num_class, sf2, ell, prior, var_thresh, free_thresh, occupied_thresh);
         m_pub_ = new semantic_bki::MarkerArrayPub(nh_, map_topic_, resolution_);
       }
 
     // Data preprocess
     void PointCloudCallback(const sensor_msgs::PointCloudConstPtr& cloud_msg) {
+      if (cloud_msg->header.frame_id != "/velodyne_actual")
+        return;       
+
       auto start = high_resolution_clock::now();
       long long cloud_msg_time = (long long)(round((double)cloud_msg->header.stamp.toNSec() / 1000.0) + 0.1);
 
@@ -63,8 +66,9 @@ class CassieData {
                                   cloud_msg->header.frame_id,
                                   cloud_msg->header.stamp,
                                   transform);
+        std::cout << cloud_msg->header.frame_id << std::endl;
       } catch (tf::TransformException ex) {
-        std::cout<<"tf look for failed\n";
+        //std::cout<<"tf look for failed\n";
         ROS_ERROR("%s",ex.what());
         return;
       }

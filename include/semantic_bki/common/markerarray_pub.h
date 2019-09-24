@@ -531,7 +531,7 @@ namespace semantic_bki {
         void publish() const {
             msg->markers[0].header.stamp = ros::Time::now();
             pub.publish(*msg);
-            ros::spinOnce();
+            //ros::spinOnce();
         }
 
     private:

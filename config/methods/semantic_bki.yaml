@@ -5,7 +5,7 @@ block_depth: 3 # Test-data octree depth (see Wang & Englot ICRA 2016)
 
 # Kernel parameters
 sf2: 10.0 # Actually sigma_0 in sparse kernel
-ell: 0.3 # Length scale of the sparse kernel
+ell: 1.0 # Length scale of the sparse kernel
 
 # BGK Inference class prior pseudocounts
 prior: 0.001 # each class

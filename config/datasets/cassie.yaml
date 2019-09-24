@@ -1,15 +1,15 @@
 # cassie config
 
 # Map information
-resolution: 0.1
+resolution: 0.2
 num_class: 14 # Number of classes
 
 # Sampling resolutions
-free_resolution: 100 # Free space sampling resolution
+free_resolution: 10.0 # Free space sampling resolution
 ds_resolution: -1 # Downsampling factor
 
 # Information about range-finder data
-max_range: 10 # Sensor max range (m)
+max_range: 14 # Sensor max range (m)
 
 # Dataset information
 visualize: true
