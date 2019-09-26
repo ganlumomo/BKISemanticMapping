@@ -151,8 +151,8 @@ class CassieData {
           int map_index = MAP_IDX(occupancy_grid_ptr_->info.width,
                                   int((x - occupancy_grid_ptr_->info.origin.position.x) / occupancy_grid_ptr_->info.resolution),
                                   int((y - occupancy_grid_ptr_->info.origin.position.y) / occupancy_grid_ptr_->info.resolution));
-          //if (map_index >= occupancy_grid_ptr_->info.width * occupancy_grid_ptr_->info.height)
-            //continue;
+          if (map_index >= occupancy_grid_ptr_->info.width * occupancy_grid_ptr_->info.height)
+            continue;
           if (occupancy_grid_ptr_->data[map_index] == 0)
               continue;
 
