@@ -427,6 +427,31 @@ namespace semantic_bki {
                 msg->markers[i].color = color;
             }
         }
+        
+        MarkerArrayPub(ros::NodeHandle nh, std::string topic, float resolution, std::string frame_id) : nh(nh),
+                                                                                  msg(new visualization_msgs::MarkerArray),
+                                                                                  topic(topic),
+                                                                                  resolution(resolution),
+                                                                                  markerarray_frame_id(frame_id) {
+            pub = nh.advertise<visualization_msgs::MarkerArray>(topic, 1, true);
+
+            msg->markers.resize(2);
+            for (int i = 0; i < 2; ++i) {
+                msg->markers[i].header.frame_id = markerarray_frame_id;
+                msg->markers[i].ns = "map";
+                msg->markers[i].id = i;
+                msg->markers[i].type = visualization_msgs::Marker::CUBE_LIST;
+                msg->markers[i].scale.x = resolution * pow(2, i);
+                msg->markers[i].scale.y = resolution * pow(2, i);
+                msg->markers[i].scale.z = resolution * pow(2, i);
+                std_msgs::ColorRGBA color;
+                color.r = 0.0;
+                color.g = 0.0;
+                color.b = 1.0;
+                color.a = 1.0;
+                msg->markers[i].color = color;
+            }
+        }
 
         void insert_point3d(float x, float y, float z, float min_z, float max_z, float size) {
             geometry_msgs::Point center;

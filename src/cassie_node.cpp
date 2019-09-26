@@ -11,6 +11,7 @@ int main(int argc, char **argv) {
     ros::NodeHandle nh("~");
 
     std::string map_topic("/occupied_cells_vis_array");
+    std::string static_frame("/odom");
     int block_depth = 4;
     double sf2 = 1.0;
     double ell = 1.0;
@@ -26,6 +27,7 @@ int main(int argc, char **argv) {
     bool visualize = false;
     
     nh.param<std::string>("topic", map_topic, map_topic);
+    nh.param<std::string>("static_frame", static_frame, static_frame);
     nh.param<int>("block_depth", block_depth, block_depth);
     nh.param<double>("sf2", sf2, sf2);
     nh.param<double>("ell", ell, ell);
@@ -42,6 +44,7 @@ int main(int argc, char **argv) {
     
     ROS_INFO_STREAM("Parameters:" << std::endl <<
       "topic: " << map_topic << std::endl <<
+      "static_frame: " << static_frame << std::endl <<
       "block_depth: " << block_depth << std::endl <<
 	    "sf2: " << sf2 << std::endl <<
       "ell: " << ell << std::endl <<
@@ -63,7 +66,7 @@ int main(int argc, char **argv) {
                            sf2, ell, prior,
                            var_thresh, free_thresh, occupied_thresh,
                            ds_resolution, free_resolution, max_range,
-                           map_topic, visualize);
+                           map_topic, static_frame, visualize);
     ros::Subscriber sub = nh.subscribe("/labeled_pointcloud", 5000, &CassieData::PointCloudCallback, &cassie_data);
 
     ros::spin();
