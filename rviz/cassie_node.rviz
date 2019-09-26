@@ -90,8 +90,18 @@ Visualization Manager:
       Marker Topic: /occupied_cells_vis_array
       Name: MarkerArray
       Namespaces:
-        {}
+        map: true
       Queue Size: 1
+      Value: true
+    - Alpha: 0.699999988079071
+      Class: rviz/Map
+      Color Scheme: map
+      Draw Behind: false
+      Enabled: true
+      Name: Map
+      Topic: /cassie_node/occupancy_grid
+      Unreliable: false
+      Use Timestamp: false
       Value: true
   Enabled: true
   Global Options:
@@ -121,15 +131,15 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz/Orbit
-      Distance: 51.27478790283203
+      Distance: 64.319091796875
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.05999999865889549
         Stereo Focal Distance: 1
         Swap Stereo Eyes: false
         Value: false
       Focal Point:
-        X: 11.538249969482422
-        Y: -1.0516481399536133
+        X: 11.53885269165039
+        Y: -0.9901935458183289
         Z: -11.750847816467285
       Focal Shape Fixed Size: true
       Focal Shape Size: 0.05000000074505806
