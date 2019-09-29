@@ -67,7 +67,7 @@ int main(int argc, char **argv) {
                            var_thresh, free_thresh, occupied_thresh,
                            ds_resolution, free_resolution, max_range,
                            map_topic, static_frame, visualize);
-    ros::Subscriber sub = nh.subscribe("/labeled_pointcloud", 5000, &CassieData::PointCloudCallback, &cassie_data);
+    ros::Subscriber sub = nh.subscribe("/labeled_pointcloud", 1, &CassieData::PointCloudCallback, &cassie_data);
 
     ros::spin();
 
