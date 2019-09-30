@@ -153,8 +153,8 @@ class CassieData {
                                   int((y - occupancy_grid_ptr_->info.origin.position.y) / occupancy_grid_ptr_->info.resolution));
           if (map_index >= occupancy_grid_ptr_->info.width * occupancy_grid_ptr_->info.height)
             continue;
-          if (occupancy_grid_ptr_->data[map_index] == 0)
-              continue;
+          //if (occupancy_grid_ptr_->data[map_index] == 0)
+              //continue;
 
           for(auto z : zs_) {
             z += origin.z();

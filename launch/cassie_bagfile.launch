@@ -1,6 +1,6 @@
 <launch>
 
-    <arg name="bagfile" default="/home/ganlu/Datasets/cassie/2019_09_28_wave_field/2019-09-28-18-50-12.bag" />
+    <arg name="bagfile" default="/home/ganlu/Datasets/cassie/2019_09_23_wave_field/2019-09-23-20-39-17.bag" />
     <arg name="start_time" default="0" />
 
     <arg name="pkg" default="$(find semantic_bki)" />
