@@ -191,14 +191,14 @@ namespace semantic_bki {
           color.b = 250.0 / 255;
           break;
         case 2:  // road
-          color.r = 95.0 / 255;
-          color.g = 75.0 / 255;
-          color.b = 76.0 / 255;
+          color.r = 245.0 / 255;
+          color.g = 190.0 / 255;
+          color.b = 133.0 / 255;
           break;
         case 3:  // sidewalk
-          color.r = 95.0 / 255;
-          color.g = 75.0 / 255;
-          color.b = 76.0 / 255;
+          color.r = 245.0 / 255;
+          color.g = 190.0 / 255;
+          color.b = 133.0 / 255;
           break;
         case 4:  // terrain
           color.r = 26.0 / 255;
@@ -206,9 +206,9 @@ namespace semantic_bki {
           color.b = 24.0 / 255;
           break;
         case 5:  // building
-          color.r = 161.0 / 255;
-          color.g = 137.0 / 255;
-          color.b = 147.0 / 255;
+          color.r = 93.0 / 255;
+          color.g = 43.0 / 255;
+          color.b = 77.0 / 255;
           break;
         case 6:  // vegetation
           color.r = 211.0 / 255;
