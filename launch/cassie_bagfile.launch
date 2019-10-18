@@ -1,6 +1,6 @@
 <launch>
 
-    <arg name="bagfile" default="/home/ganlu/Datasets/cassie/2019_09_23_wave_field/2019-09-23-20-39-17.bag" />
+    <arg name="bagfile" default="/media/ganlu/PERL-SSD/cassie/2019_10_01_wave_field/2019-10-01-19-03-19.bag" />
     <arg name="start_time" default="0" />
 
     <arg name="pkg" default="$(find semantic_bki)" />
@@ -10,7 +10,7 @@
     <arg name="method_config" value="$(arg pkg)/config/methods" />
     <arg name="data_config" value="$(arg pkg)/config/datasets/" />
 
-    <node type="rviz" name="rviz" pkg="rviz" args="-d $(find semantic_bki)/rviz/cassie_node.rviz" />
+    <node type="rviz" name="rviz" pkg="rviz" args="-d $(find semantic_bki)/rviz/cassie_halloween.rviz" />
     <node pkg="semantic_bki" type="cassie_node" name="cassie_node" output="screen" launch-prefix="gdb -ex run --args">
 
         <!-- Load method configuration from file -->
@@ -25,6 +25,21 @@
     <node pkg="rosbag" type="play" name="player" output="screen" args="-q -r 1 -s $(arg start_time) --clock $(arg bagfile)">
         <remap from="cassie_node/occupancy_grid" to="cassie_node/occupancy_grid_old" />
         <remap from="cassie_node/cost_map" to="cassie_node/cost_map_old" />
+    </node>
+
+    <!-- Load URDFs -->
+    <arg name="cassie_namespace" 		default="cassie" />
+	  <param name="cassie_description" textfile="$(find cassie_description)/urdf/cassie_with_torso.urdf"/>
+    <param name="use_sim_time" value="true" />
+ 
+    <!-- Cassie state publisher -->
+    <node pkg="robot_state_publisher" type="state_publisher" name="$(arg cassie_namespace)_state_publisher" >
+      <param name="tf_prefix" value="/$(arg cassie_namespace)" />
+      <param name="use_tf_static" type="bool" value="false" />
+      <param name="publish_frequency" type="double" value="200.0" />
+      <param name="ignore_timestamp" type="bool" value="false" />
+      <remap from="robot_description" to="cassie_description" />
+      <remap from="joint_states" to="/$(arg cassie_namespace)/joint_states" />
     </node>
 
 </launch>

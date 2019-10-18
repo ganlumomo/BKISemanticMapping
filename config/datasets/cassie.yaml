@@ -1,7 +1,7 @@
 # cassie config
 
 # Map information
-resolution: 0.2
+resolution: 0.1
 num_class: 14 # Number of classes
 
 # Sampling resolutions

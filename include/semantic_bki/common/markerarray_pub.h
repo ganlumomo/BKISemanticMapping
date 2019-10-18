@@ -180,6 +180,85 @@ namespace semantic_bki {
       return color;
     }
 
+   std_msgs::ColorRGBA HalloweenSemanticMapColor(int c) {
+      std_msgs::ColorRGBA color;
+      color.a = 1.0;
+
+      switch (c) {
+        case 1:  // water
+          color.r = 30.0 / 255;
+          color.g = 144.0 / 255;
+          color.b = 250.0 / 255;
+          break;
+        case 2:  // road
+          color.r = 95.0 / 255;
+          color.g = 75.0 / 255;
+          color.b = 76.0 / 255;
+          break;
+        case 3:  // sidewalk
+          color.r = 95.0 / 255;
+          color.g = 75.0 / 255;
+          color.b = 76.0 / 255;
+          break;
+        case 4:  // terrain
+          color.r = 26.0 / 255;
+          color.g = 14.0 / 255;
+          color.b = 24.0 / 255;
+          break;
+        case 5:  // building
+          color.r = 161.0 / 255;
+          color.g = 137.0 / 255;
+          color.b = 147.0 / 255;
+          break;
+        case 6:  // vegetation
+          color.r = 211.0 / 255;
+          color.g = 175.0/ 255;
+          color.b = 141.0 / 255;
+          break;
+        case 7:  // car
+          color.r = 0;
+          color.g = 0;
+          color.b = 142.0 / 255;
+          break;
+        case 8:  // person
+          color.r = 209.0 / 255;
+          color.g = 209.0 / 255;
+          color.b = 203.0 / 255;
+          break;
+        case 9:  // bike
+          color.r = 119.0 / 255;
+          color.g = 11.0 / 255;
+          color.b = 32.0/ 255;
+          break;
+        case 10:  // pole
+          color.r = 122.0 / 255;
+          color.g = 21.0 / 255;
+          color.b = 14.0 / 255;
+          break;
+        case 11:  // stair
+          color.r = 123.0 / 255;
+          color.g = 104.0 / 255;
+          color.b = 238.0 / 255;
+          break;
+        case 12:  // traffic sign
+          color.r = 250.0 / 255;
+          color.g = 250.0 / 255;
+          color.b = 0;
+          break;
+        case 13:  // sky
+          color.r = 135.0 / 255;
+          color.g = 206.0 / 255;
+          color.b = 235.0 / 255;
+          break;
+        default:
+          color.r = 1;
+          color.g = 1;
+          color.b = 1;
+          break;
+      }
+      return color;
+    }
+    
     std_msgs::ColorRGBA NCLTSemanticMapColor(int c) {
       std_msgs::ColorRGBA color;
       color.a = 1.0;
@@ -501,6 +580,9 @@ namespace semantic_bki {
                 break;
               case 3:
                 msg->markers[depth].colors.push_back(NCLTSemanticMapColor(c));
+                break;
+              case 4:
+                msg->markers[depth].colors.push_back(HalloweenSemanticMapColor(c));
                 break;
               default:
                 msg->markers[depth].colors.push_back(SemanticMapColor(c));

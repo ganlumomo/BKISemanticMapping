@@ -74,8 +74,8 @@ class CassieData {
 
     // Data preprocess
     void PointCloudCallback(const sensor_msgs::PointCloudConstPtr& cloud_msg) {
-      //if (cloud_msg->header.frame_id != "/velodyne_actual")
-        //return;       
+      if (cloud_msg->header.frame_id != "/velodyne_actual")
+        return;       
 
       auto start = high_resolution_clock::now();
       long long cloud_msg_time = (long long)(round((double)cloud_msg->header.stamp.toNSec() / 1000.0) + 0.1);
@@ -93,7 +93,8 @@ class CassieData {
   
         if (std::isnan(pt.x) || std::isnan(pt.y) || std::isnan(pt.z))
           continue;
-        if (pt.label == 0 || pt.label == 13)  // Note: don't project background and sky
+        if (pt.label == 0 || pt.label == 13 || pt.label == 8 || 
+            pt.label == 1 || pt.label == 7 || pt.label == 9 || pt.label == 11 || pt.label == 12)  // Note: don't project background and sky
           continue;
         cloud.push_back(pt);
       }
@@ -137,7 +138,7 @@ class CassieData {
       for (auto it = map_->begin_leaf(); it != map_->end_leaf(); ++it) {
         if (it.get_node().get_state() == semantic_bki::State::OCCUPIED) {
           semantic_bki::point3f p = it.get_loc();
-          m_pub_->insert_point3d_semantics(p.x(), p.y(), p.z(), it.get_size(), it.get_node().get_semantics(), 3);
+          m_pub_->insert_point3d_semantics(p.x(), p.y(), p.z(), it.get_size(), it.get_node().get_semantics(), 4);
         }
       }
       m_pub_->publish();
