@@ -22,7 +22,7 @@
     </node>
 
     <!-- Play Bagfile -->
-    <node pkg="rosbag" type="play" name="player" output="screen" args="-q -r 1 -s $(arg start_time) --clock $(arg bagfile)">
+    <node pkg="rosbag" type="play" name="player" output="screen" args="-q -r 0.2 -s $(arg start_time) --clock $(arg bagfile)">
         <remap from="cassie_node/occupancy_grid" to="cassie_node/occupancy_grid_old" />
         <remap from="cassie_node/cost_map" to="cassie_node/cost_map_old" />
     </node>
