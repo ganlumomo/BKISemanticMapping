@@ -9,7 +9,7 @@ free_resolution: 100 # Free space sampling resolution
 ds_resolution: -1 # Downsampling factor
 
 # Information about range-finder data
-scan_num: 100 # How many scans to use
+scan_num: 271 # How many scans to use
 max_range: -1 # Sensor max range (m)
 
 # Dataset information
@@ -19,4 +19,4 @@ lidar_pose_file: poses.txt
 gt_label_prefix: labels/
 evaluation_result_prefix: evaluations/
 query: true
-visualize: true
+visualize: false

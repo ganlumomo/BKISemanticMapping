@@ -1,6 +1,7 @@
 #pragma once
 
 #include <fstream>
+#include <chrono>
 
 #include <ros/ros.h>
 #include <sensor_msgs/PointCloud.h>
@@ -70,6 +71,7 @@ class SemanticKITTIData {
     bool process_scans(std::string input_data_dir, std::string input_label_dir, int scan_num, bool query, bool visualize) {
       semantic_bki::point3f origin;
       
+      auto start = std::chrono::high_resolution_clock::now();
       for (int scan_id  = 0; scan_id < scan_num; ++scan_id) {
         char scan_id_c[256];
         sprintf(scan_id_c, "%06d", scan_id);
@@ -102,8 +104,12 @@ class SemanticKITTIData {
         origin.x() = transform(0, 3);
         origin.y() = transform(1, 3);
         origin.z() = transform(2, 3);
-        map_->insert_pointcloud(*cloud, origin, ds_resolution_, free_resolution_, max_range_);
-        std::cout << "Inserted point cloud at " << scan_name << std::endl;
+        
+      	auto start = std::chrono::high_resolution_clock::now();
+	map_->insert_pointcloud(*cloud, origin, ds_resolution_, free_resolution_, max_range_);
+      	auto finish = std::chrono::high_resolution_clock::now();
+	std::chrono::duration<double> elapsed = finish - start;
+      	std::cout << "Elapsed time for scan " << scan_name << " is: " << elapsed.count() << " s\n";
         
         if (query) {
           for (int query_id = scan_id - 10; query_id >= 0 && query_id <= scan_id; ++query_id)
@@ -113,6 +119,9 @@ class SemanticKITTIData {
         if (visualize)
 	        publish_map();
       }
+      auto finish = std::chrono::high_resolution_clock::now();
+      std::chrono::duration<double> elapsed = finish - start;
+      std::cout << "Elapsed time: " << elapsed.count() << " s\n";
       return 1;
     }
 
