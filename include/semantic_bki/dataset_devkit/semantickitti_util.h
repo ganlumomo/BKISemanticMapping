@@ -7,8 +7,8 @@
 #include <tf/transform_listener.h>
 #include <tf_conversions/tf_eigen.h>
 
-#include <octomap/ColorOcTree.h>
-#include <octomap_msgs/conversions.h>
+//#include <octomap/ColorOcTree.h>
+//#include <octomap_msgs/conversions.h>
 
 #include <pcl/common/transforms.h>
 #include <pcl/io/pcd_io.h>
@@ -31,9 +31,14 @@ class SemanticKITTIData {
       , max_range_(max_range) {
         map_ = new semantic_bki::SemanticBKIOctoMap(resolution, block_depth, num_class, sf2, ell, prior, var_thresh, free_thresh, occupied_thresh);
         m_pub_ = new semantic_bki::MarkerArrayPub(nh_, map_topic, resolution);
-      	init_trans_to_ground_ << 1, 0, 0, 0,
+      	//init_trans_to_ground_ << 1, 0, 0, 0,
+          //                       0, 0, 1, 0,
+            //                     0,-1, 0, 1,
+              //                   0, 0, 0, 1;
+              //
+        init_trans_to_ground_ << 1, 0, 0, 0,
+                                 0, 1, 0, 0,
                                  0, 0, 1, 0,
-                                 0,-1, 0, 1,
                                  0, 0, 0, 1;
       }
 
@@ -64,6 +69,7 @@ class SemanticKITTIData {
 
     bool process_scans(std::string input_data_dir, std::string input_label_dir, int scan_num, bool query, bool visualize) {
       semantic_bki::point3f origin;
+      
       for (int scan_id  = 0; scan_id < scan_num; ++scan_id) {
         char scan_id_c[256];
         sprintf(scan_id_c, "%06d", scan_id);
@@ -131,7 +137,8 @@ class SemanticKITTIData {
       sprintf(scan_id_c, "%06d", scan_id);
       std::string scan_name = input_data_dir + std::string(scan_id_c) + ".bin";
       std::string gt_name = gt_label_dir_ + std::string(scan_id_c) + ".label";
-      std::string result_name = evaluation_result_dir_ + std::string(scan_id_c) + ".txt";
+      //std::string result_name = evaluation_result_dir_ + std::string(scan_id_c) + ".txt";
+      std::string result_name = evaluation_result_dir_ + std::string(scan_id_c) + ".label";
       pcl::PointCloud<pcl::PointXYZL>::Ptr cloud = kitti2pcl(scan_name, gt_name);
       Eigen::Matrix4d transform = lidar_poses_[scan_id];
       Eigen::Matrix4d calibration;
@@ -157,16 +164,21 @@ class SemanticKITTIData {
       Eigen::Matrix4d new_transform = transform * calibration;
       pcl::transformPointCloud (*cloud, *cloud, new_transform);
 
-      std::ofstream result_file;
-      result_file.open(result_name);
+      //std::ofstream result_file;
+      //result_file.open(result_name);
+      std::vector<int> pred_labels;
       for (int i = 0; i < cloud->points.size(); ++i) {
         semantic_bki::SemanticOcTreeNode node = map_->search(cloud->points[i].x, cloud->points[i].y, cloud->points[i].z);
         int pred_label = 0;
 	      if (node.get_state() == semantic_bki::State::OCCUPIED)
 	        pred_label = node.get_semantics();
-        result_file << cloud->points[i].label << " " << pred_label << "\n";
+        //result_file << cloud->points[i].label << " " << pred_label << "\n";
+        pred_labels.push_back(pred_label);
       }
-      result_file.close();
+      FILE *f = fopen(result_name.c_str(), "wb");
+      fwrite(pred_labels.data(), sizeof(int), pred_labels.size(), f);
+      fclose(f);
+      //result_file.close();
     }
 
   
@@ -178,7 +190,7 @@ class SemanticKITTIData {
     double max_range_;
     semantic_bki::SemanticBKIOctoMap* map_;
     semantic_bki::MarkerArrayPub* m_pub_;
-    ros::Publisher color_octomap_publisher_;
+    //ros::Publisher color_octomap_publisher_;
     tf::TransformListener listener_;
     std::ofstream pose_file_;
     std::vector<Eigen::Matrix4d> lidar_poses_;

@@ -29,7 +29,7 @@ find_package(catkin REQUIRED COMPONENTS
         nav_msgs
         pcl_ros
         roscpp
-        octomap_ros
+        #octomap_ros
         tf_conversions
 )
 
