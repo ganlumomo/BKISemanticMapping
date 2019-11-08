@@ -7,9 +7,6 @@
 #include <tf/transform_listener.h>
 #include <tf_conversions/tf_eigen.h>
 
-#include <octomap/ColorOcTree.h>
-#include <octomap_msgs/conversions.h>
-
 #include <pcl/common/transforms.h>
 #include <pcl/io/pcd_io.h>
 
