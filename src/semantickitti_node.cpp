@@ -30,7 +30,6 @@ int main(int argc, char **argv) {
     std::string input_data_prefix;
     std::string input_label_prefix;
     std::string lidar_pose_file;
-    std::string gt_label_prefix;
     std::string evaluation_result_prefix;
     bool query = false;
     bool visualize = false;
@@ -54,7 +53,6 @@ int main(int argc, char **argv) {
     nh.param<std::string>("input_data_prefix", input_data_prefix, input_data_prefix);
     nh.param<std::string>("input_label_prefix", input_label_prefix, input_label_prefix);
     nh.param<std::string>("lidar_pose_file", lidar_pose_file, lidar_pose_file);
-    nh.param<std::string>("gt_label_prefix", gt_label_prefix, gt_label_prefix);
     nh.param<std::string>("evaluation_result_prefix", evaluation_result_prefix, evaluation_result_prefix);
     nh.param<bool>("query", query, query);
     nh.param<bool>("visualize", visualize, visualize);
@@ -79,7 +77,6 @@ int main(int argc, char **argv) {
       "input_data_prefix: " << input_data_prefix << std::endl <<
       "input_label_prefix: " << input_label_prefix << std::endl <<
       "lidar_pose_file: " << lidar_pose_file << std::endl <<
-      "gt_label_prefix: " << gt_label_prefix << std::endl <<
       "evaluation_result_prefix: " << evaluation_result_prefix << std::endl <<
       "query: " << query << std::endl <<
       "visualize:" << visualize
@@ -89,7 +86,7 @@ int main(int argc, char **argv) {
     ///////// Build Map /////////////////////
     SemanticKITTIData semantic_kitti_data(nh, resolution, block_depth, sf2, ell, num_class, free_thresh, occupied_thresh, var_thresh, ds_resolution, free_resolution, max_range, map_topic, prior);
     semantic_kitti_data.read_lidar_poses(dir + '/' + lidar_pose_file);
-    semantic_kitti_data.set_up_evaluation(dir + '/' + gt_label_prefix, dir + '/' + evaluation_result_prefix);
+    semantic_kitti_data.set_up_evaluation(dir + '/' + evaluation_result_prefix);
     semantic_kitti_data.process_scans(dir + '/' + input_data_prefix, dir + '/' + input_label_prefix, scan_num, query, visualize);
 
     ros::spin();

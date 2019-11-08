@@ -30,7 +30,7 @@ class SemanticKITTIData {
       , ds_resolution_(ds_resolution)
       , free_resolution_(free_resolution)
       , max_range_(max_range) {
-        map_ = new semantic_bki::SemanticBKIOctoMap(resolution, block_depth, num_class, sf2, ell, prior, var_thresh, free_thresh, occupied_thresh);
+        map_ = new semantic_bki::SemanticBKIOctoMap(resolution, 1, num_class, sf2, ell, prior, var_thresh, free_thresh, occupied_thresh);
         m_pub_ = new semantic_bki::MarkerArrayPub(nh_, map_topic, resolution);
       	//init_trans_to_ground_ << 1, 0, 0, 0,
           //                       0, 0, 1, 0,
@@ -106,14 +106,14 @@ class SemanticKITTIData {
         origin.z() = transform(2, 3);
         
       	auto start = std::chrono::high_resolution_clock::now();
-	map_->insert_pointcloud(*cloud, origin, ds_resolution_, free_resolution_, max_range_);
+	map_->insert_pointcloud_csm(*cloud, origin, ds_resolution_, free_resolution_, max_range_);
       	auto finish = std::chrono::high_resolution_clock::now();
 	std::chrono::duration<double> elapsed = finish - start;
       	std::cout << "Elapsed time for scan " << scan_name << " is: " << elapsed.count() << " s\n";
         
         if (query) {
           for (int query_id = scan_id - 10; query_id >= 0 && query_id <= scan_id; ++query_id)
-          query_scan(input_data_dir, query_id);
+          query_scan(input_data_dir, input_label_dir, query_id);
         }
 
         if (visualize)
@@ -136,19 +136,18 @@ class SemanticKITTIData {
       m_pub_->publish();
     }
 
-    void set_up_evaluation(const std::string gt_label_dir, const std::string evaluation_result_dir) {
-      gt_label_dir_ = gt_label_dir;
+    void set_up_evaluation(const std::string evaluation_result_dir) {
       evaluation_result_dir_ = evaluation_result_dir;
     }
 
-    void query_scan(std::string input_data_dir, int scan_id) {
+    void query_scan(std::string input_data_dir, std::string input_label_dir, int scan_id) {
       char scan_id_c[256];
       sprintf(scan_id_c, "%06d", scan_id);
       std::string scan_name = input_data_dir + std::string(scan_id_c) + ".bin";
-      std::string gt_name = gt_label_dir_ + std::string(scan_id_c) + ".label";
+      std::string label_name = input_label_dir + std::string(scan_id_c) + ".label";
       //std::string result_name = evaluation_result_dir_ + std::string(scan_id_c) + ".txt";
       std::string result_name = evaluation_result_dir_ + std::string(scan_id_c) + ".label";
-      pcl::PointCloud<pcl::PointXYZL>::Ptr cloud = kitti2pcl(scan_name, gt_name);
+      pcl::PointCloud<pcl::PointXYZL>::Ptr cloud = kitti2pcl(scan_name, label_name);
       Eigen::Matrix4d transform = lidar_poses_[scan_id];
       Eigen::Matrix4d calibration;
       
@@ -182,7 +181,8 @@ class SemanticKITTIData {
 	      if (node.get_state() == semantic_bki::State::OCCUPIED)
 	        pred_label = node.get_semantics();
         //result_file << cloud->points[i].label << " " << pred_label << "\n";
-        pred_labels.push_back(pred_label);
+	//std::cout << pred_label << std::endl;
+	pred_labels.push_back(pred_label);
       }
       FILE *f = fopen(result_name.c_str(), "wb");
       fwrite(pred_labels.data(), sizeof(int), pred_labels.size(), f);
@@ -203,7 +203,6 @@ class SemanticKITTIData {
     tf::TransformListener listener_;
     std::ofstream pose_file_;
     std::vector<Eigen::Matrix4d> lidar_poses_;
-    std::string gt_label_dir_;
     std::string evaluation_result_dir_;
     Eigen::Matrix4d init_trans_to_ground_;
 
