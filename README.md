@@ -5,7 +5,7 @@ Bayesian Spatial Kernel Smoothing for Scalable Dense Semantic Mapping
 <img src="https://raw.githubusercontent.com/ganlumomo/BKISemanticMapping/master/github/toy_example_semantic_csm_variance.png" width="300"><img src="https://raw.githubusercontent.com/ganlumomo/BKISemanticMapping/master/github/toy_example_semantic_bki_variance.png" width="300">
 
 
-## Quantitative results on SemanticKITTI dataset sequence 00-10 for 19 semantic classes. SqueezeSegV2-KNN (Sq.-KNN)
+## Quantitative results on SemanticKITTI dataset sequence 00-10 for 19 semantic classes. SqueezeSegV2-kNN (Sq.-kNN)
 
 | Sequence  | Method | Car | Bicycle | Motorcycle | Truck | Other Vehicle | Person | Bicyclist | Motorcyclist | Road | Parking | Sidewalk | Other Ground | Building | Fence | Vegetation | Trunk | Terrain | Pole | Traffic Sign | Average | 
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -47,10 +47,11 @@ Bayesian Spatial Kernel Smoothing for Scalable Dense Semantic Mapping
 | | S-BKI | **93.4** | **29.2** | **65.8** | **75.4** | **72.9** | **93.0** | **80.7** | **73.7** | 93.7 | **72.3** | 83.8 | **49.0** | **84.1** | **68.7** | **83.0** | **53.7** | **75.8** | **54.0** | **67.1** | **72.1** |
 
 
-## Quantitative results on SemanticKITTI dataset sequence 00-10 for 19 semantic classes. RangeNet53++-KNN (RN.-KNN)
+## Quantitative results on SemanticKITTI dataset sequence 00-10 for 19 semantic classes. Darknet53-kNN (Da-kNN)
 | Sequence  | Method | Car | Bicycle | Motorcycle | Truck | Other Vehicle | Person | Bicyclist | Motorcyclist | Road | Parking | Sidewalk | Other Ground | Building | Fence | Vegetation | Trunk | Terrain | Pole | Traffic Sign | Average | 
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
-| 04 | RN-KNN| 0.908 | 0.000 | 0.000 | 0.000 | 0.915 | 0.433 | 0.000 | 0.000 | 0.985 | 0.728 | 0.883 | 0.807 | 0.922 | 0.928 | 0.936 | 0.312 | 0.888 | 0.719 | 0.742 | 0.584 |
+| 04 | Da-kNN | 0.908 | 0.000 | 0.000 | 0.000 | 0.915 | 0.433 | 0.000 | 0.000 | 0.985 | 0.728 | 0.883 | 0.807 | 0.922 | 0.928 | 0.936 | 0.312 | 0.888 | 0.719 | 0.742 | 0.584 |
+| 04 | S-CSM | 0.925 | 0.000 | 0.000 | 0.000 | 0.919 | 0.467 | 0.000 | 0.000 | 0.987 | 0.763 | 0.900 | 0.823 | 0.935 | 0.935 | 0.946 | 0.370 | 0.905 | 0.795 | 0.810 | 0.604 |
 
 ## Getting Started
 
