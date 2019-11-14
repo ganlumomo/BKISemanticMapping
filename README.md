@@ -5,7 +5,7 @@ Bayesian Spatial Kernel Smoothing for Scalable Dense Semantic Mapping
 <img src="https://raw.githubusercontent.com/ganlumomo/BKISemanticMapping/master/github/toy_example_semantic_csm_variance.png" width="300"><img src="https://raw.githubusercontent.com/ganlumomo/BKISemanticMapping/master/github/toy_example_semantic_bki_variance.png" width="300">
 
 
-## Quantitative results on SemanticKITTI dataset sequence 00-10 for 19 semantic classes. SqueezesegV2-KNN (Sq.-KNN)
+## Quantitative results on SemanticKITTI dataset sequence 00-10 for 19 semantic classes. SqueezeSegV2-KNN (Sq.-KNN)
 
 | Sequence  | Method | Car | Bicycle | Motorcycle | Truck | Other Vehicle | Person | Bicyclist | Motorcyclist | Road | Parking | Sidewalk | Other Ground | Building | Fence | Vegetation | Trunk | Terrain | Pole | Traffic Sign | Average | 
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -46,6 +46,11 @@ Bayesian Spatial Kernel Smoothing for Scalable Dense Semantic Mapping
 | | S-CSM | 92.5 | 21.7 | 58.7 | 68.8 | 66.8 | 42.9 | 74.1 | 67.4 | **94.1** | 67.7 | **84.5** | 46.6 | 82.3 | 67.5 | 81.6 | 47.8 | 75.2 | 50.2 | 62.0 | 65.9 |
 | | S-BKI | **93.4** | **29.2** | **65.8** | **75.4** | **72.9** | **93.0** | **80.7** | **73.7** | 93.7 | **72.3** | 83.8 | **49.0** | **84.1** | **68.7** | **83.0** | **53.7** | **75.8** | **54.0** | **67.1** | **72.1** |
 
+
+## Quantitative results on SemanticKITTI dataset sequence 00-10 for 19 semantic classes. RangeNet53++-KNN (RN.-KNN)
+| Sequence  | Method | Car | Bicycle | Motorcycle | Truck | Other Vehicle | Person | Bicyclist | Motorcyclist | Road | Parking | Sidewalk | Other Ground | Building | Fence | Vegetation | Trunk | Terrain | Pole | Traffic Sign | Average | 
+| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+| 04 | RN-KNN| 0.908 | 0.000 | 0.000 | 0.000 | 0.915 | 0.433 | 0.000 | 0.000 | 0.985 | 0.728 | 0.883 | 0.807 | 0.922 | 0.928 | 0.936 | 0.312 | 0.888 | 0.719 | 0.742 | 0.584 |
 
 ## Getting Started
 
