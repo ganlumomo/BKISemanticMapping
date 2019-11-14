@@ -101,14 +101,14 @@ class SemanticKITTIData {
 	      
         Eigen::Matrix4d new_transform = init_trans_to_ground_ * transform * calibration;
         pcl::transformPointCloud (*cloud, *cloud, new_transform);
-        origin.x() = transform(0, 3);
-        origin.y() = transform(1, 3);
-        origin.z() = transform(2, 3);
+        origin.x() = new_transform(0, 3);
+        origin.y() = new_transform(1, 3);
+        origin.z() = new_transform(2, 3);
         
       	auto start = std::chrono::high_resolution_clock::now();
-	map_->insert_pointcloud_csm(*cloud, origin, ds_resolution_, free_resolution_, max_range_);
+	      map_->insert_pointcloud_csm(*cloud, origin, ds_resolution_, free_resolution_, max_range_);
       	auto finish = std::chrono::high_resolution_clock::now();
-	std::chrono::duration<double> elapsed = finish - start;
+	      std::chrono::duration<double> elapsed = finish - start;
       	std::cout << "Elapsed time for scan " << scan_name << " is: " << elapsed.count() << " s\n";
         
         if (query) {
@@ -180,9 +180,8 @@ class SemanticKITTIData {
         int pred_label = 0;
 	      if (node.get_state() == semantic_bki::State::OCCUPIED)
 	        pred_label = node.get_semantics();
-        //result_file << cloud->points[i].label << " " << pred_label << "\n";
-	//std::cout << pred_label << std::endl;
-	pred_labels.push_back(pred_label);
+	        //std::cout << pred_label << std::endl;
+	        pred_labels.push_back(pred_label);
       }
       FILE *f = fopen(result_name.c_str(), "wb");
       fwrite(pred_labels.data(), sizeof(int), pred_labels.size(), f);
