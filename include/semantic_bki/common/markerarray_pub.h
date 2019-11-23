@@ -410,8 +410,8 @@ namespace semantic_bki {
                                                                                   markerarray_frame_id("/map") {
             pub = nh.advertise<visualization_msgs::MarkerArray>(topic, 1, true);
 
-            msg->markers.resize(2);
-            for (int i = 0; i < 2; ++i) {
+            msg->markers.resize(10);
+            for (int i = 0; i < 10; ++i) {
                 msg->markers[i].header.frame_id = markerarray_frame_id;
                 msg->markers[i].ns = "map";
                 msg->markers[i].id = i;
@@ -436,7 +436,7 @@ namespace semantic_bki {
 
             int depth = 0;
             if (size > 0)
-                depth = (int) log2(size / 0.1);
+                depth = (int) log2(size / 0.01);
 
             msg->markers[depth].points.push_back(center);
             if (min_z < max_z) {
@@ -462,7 +462,7 @@ namespace semantic_bki {
 
             int depth = 0;
             if (size > 0)
-                depth = (int) log2(size / 0.1);
+                depth = (int) log2(size / 0.01);
 
             msg->markers[depth].points.push_back(center);
             switch (dataset) {

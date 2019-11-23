@@ -1,11 +1,11 @@
 cmake_minimum_required(VERSION 2.8.3)
 project(semantic_bki)
 
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -o3 -lmkl_intel_lp64 -lmkl_core")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -o3#")
 
 
-LIST(APPEND CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/cmake)
-find_package(MKL REQUIRED)
+#LIST(APPEND CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/cmake)
+#find_package(MKL REQUIRED)
 
 find_package(OpenMP)
 if (OPENMP_FOUND)
@@ -124,7 +124,7 @@ include_directories(
   include/semantic_bki/dataset_devkit
   ${catkin_INCLUDE_DIRS}
   ${OpenCV_INCLUDE_DIRS}
-  ${MKL_INCLUDE_DIRS}
+  # ${MKL_INCLUDE_DIRS}
 )
 
 ## Declare a cpp library
@@ -175,25 +175,25 @@ add_executable(stanford_semantics_node
 
 target_link_libraries(toy_example_node
   ${catkin_LIBRARIES}
-  ${MKL_LIBRARIES}
+  # ${MKL_LIBRARIES}
 )
 
 target_link_libraries(kitti_node
   ${catkin_LIBRARIES}
   ${OpenCV_LIBRARIES}
-  ${MKL_LIBRARIES}
+  # ${MKL_LIBRARIES}
 )
 
 target_link_libraries(semantickitti_node
   ${catkin_LIBRARIES}
   ${OpenCV_LIBRARIES}
-  ${MKL_LIBRARIES}
+  # ${MKL_LIBRARIES}
 )
 
 target_link_libraries(stanford_semantics_node
   ${catkin_LIBRARIES}
   ${OpenCV_LIBRARIES}
-  ${MKL_LIBRARIES}
+  # ${MKL_LIBRARIES}
 )
 
 #############

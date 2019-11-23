@@ -27,7 +27,7 @@ class StanfordSemanticsData {
       , ds_resolution_(ds_resolution)
       , free_resolution_(free_resolution)
       , max_range_(max_range) {
-        map_ = new semantic_bki::SemanticBKIOctoMap(resolution, 1, num_class, sf2, ell, prior, var_thresh, free_thresh, occupied_thresh);
+        map_ = new semantic_bki::SemanticBKIOctoMap(resolution, block_depth, num_class, sf2, ell, prior, var_thresh, free_thresh, occupied_thresh);
         m_pub_ = new semantic_bki::MarkerArrayPub(nh_, map_topic, resolution);
       	//init_trans_to_ground_ << 1, 0, 0, 0,
           //                       0, 0, 1, 0,
@@ -67,6 +67,8 @@ class StanfordSemanticsData {
 
     bool process_scans(std::string input_data_dir, std::string input_label_dir, int scan_num, bool query, bool visualize) {
       semantic_bki::point3f origin;
+
+      std::vector<int> semantic_labels = {1, 2, 2, 3, 3, 3, 3, 3, 3, 4, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 6, 6, 6, 6, 6, 6, 6, 6, 6, 7, 7, 8, 9, 10, 10, 10, 10, 10, 10};
       
       auto start = std::chrono::high_resolution_clock::now();
       for (int scan_id  = 1; scan_id <= scan_num; ++scan_id) {
@@ -81,7 +83,7 @@ class StanfordSemanticsData {
           point.x = cloud->points[i].x;
           point.y = cloud->points[i].y;
           point.z = cloud->points[i].z;
-          point.label = scan_id;
+          point.label = semantic_labels[scan_id - 1];
           labeled_cloud->push_back(point);
         }
 
