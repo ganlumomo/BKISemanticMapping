@@ -147,14 +147,20 @@ Evaluation code is provided in semantickitti_evaluation.ipynb. You may modify th
 
 If you found this code useful, please cite the following:
 
-Bayesian Spatial Kernel Smoothing for Scalable Dense Semantic Mapping ([PDF](https://arxiv.org/pdf/1909.04631.pdf))
+Bayesian Spatial Kernel Smoothing for Scalable Dense Semantic Mapping ([PDF](https://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&arnumber=8954837))
 ```
-@article{gan2019bayesian,
-  title={Bayesian Spatial Kernel Smoothing for Scalable Dense Semantic Mapping},
-  author={Gan, Lu and Zhang, Ray and Grizzle, Jessy W and Eustice, Ryan M and Ghaffari, Maani},
-  journal={arXiv preprint arXiv:1909.04631},
-  year={2019}
-}
+@ARTICLE{gan2019bayesian,
+author={L. {Gan} and R. {Zhang} and J. W. {Grizzle} and R. M. {Eustice} and M. {Ghaffari}},
+journal={IEEE Robotics and Automation Letters},
+title={Bayesian Spatial Kernel Smoothing for Scalable Dense Semantic Mapping},
+year={2020},
+volume={5},
+number={2},
+pages={790-797},
+keywords={Mapping;semantic scene understanding;range sensing;RGB-D perception},
+doi={10.1109/LRA.2020.2965390},
+ISSN={2377-3774},
+month={April},}
 ```
 
 Learning-Aided 3-D Occupancy Mapping with Bayesian Generalized Kernel Inference ([PDF](https://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&arnumber=8713569))
