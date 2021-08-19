@@ -151,7 +151,7 @@ class SemanticKITTIData {
                        0.999977309828677, -0.001805528627661, -0.006496203536139, -0.333996806443304,
                        0                ,  0                ,  0                ,  1.000000000000000;
       
-      Eigen::Matrix4d new_transform = transform * calibration;
+      Eigen::Matrix4d new_transform = init_trans_to_ground_ * transform * calibration;
       pcl::transformPointCloud (*cloud, *cloud, new_transform);
 
       std::ofstream result_file;
