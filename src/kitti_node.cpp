@@ -136,7 +136,7 @@ int main(int argc, char **argv) {
       std::string depth_img_name(dir + "/" + depth_img_prefix + "/" + scan_id_s + ".png");
       std::string label_bin_name(dir + "/" + label_bin_prefix + "/" + scan_id_s + ".bin");
 
-    	cv::Mat depth_img = cv::imread(depth_img_name, CV_LOAD_IMAGE_ANYDEPTH);
+    	cv::Mat depth_img = cv::imread(depth_img_name, cv::IMREAD_ANYDEPTH);
     	kitti_data.read_label_prob_bin(label_bin_name);
       kitti_data.process_depth_img(scan_id, depth_img, cloud, origin, reproject);
       

@@ -407,7 +407,7 @@ namespace semantic_bki {
                                                                                   msg(new visualization_msgs::MarkerArray),
                                                                                   topic(topic),
                                                                                   resolution(resolution),
-                                                                                  markerarray_frame_id("/map") {
+                                                                                  markerarray_frame_id("map") {
             pub = nh.advertise<visualization_msgs::MarkerArray>(topic, 1, true);
 
             msg->markers.resize(2);
